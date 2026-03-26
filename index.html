@@ -910,10 +910,33 @@
         currentStep++;
         updateStepUI();
       } else {
+        // Build payload and save to localStorage for admin page
+        const payload = {
+          id: 'evt-' + Date.now(),
+          hostName: document.getElementById('hostName').value.trim(),
+          eventType: document.getElementById('eventType').value,
+          eventDate: document.getElementById('eventDate').value,
+          guestCount: document.getElementById('guestCount').value,
+          venueName: document.getElementById('venueName').value.trim(),
+          city: document.getElementById('city').value.trim(),
+          state: document.getElementById('state').value.trim(),
+          wishlist: wishlist.map(name => ({ name, price: '' })),
+          contactName: document.getElementById('contactName').value.trim(),
+          contactPhone: document.getElementById('contactPhone').value.trim(),
+          contactEmail: document.getElementById('contactEmail').value.trim(),
+          contactTime: document.getElementById('contactTime').value.trim(),
+          extraNotes: document.getElementById('extraNotes').value.trim(),
+          submittedAt: new Date().toISOString()
+        };
+
+        const existing = JSON.parse(localStorage.getItem('giftloopEvents') || '[]');
+        existing.push(payload);
+        localStorage.setItem('giftloopEvents', JSON.stringify(existing)); // [web:85][web:90]
+
         // Final submit: hide wizard, show success
         const wizardWrap = document.getElementById('wizardWrap');
         const successWrap = document.getElementById('successWrap');
-        const eventTypeVal = document.getElementById('eventType').value;
+        const eventTypeVal = payload.eventType;
         const successEventLine = document.getElementById('successEventLine');
 
         let msg = '';
