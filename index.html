@@ -47,11 +47,15 @@
       border-bottom:1px solid var(--border);
     }
     .nav-container {
+      padding:10px 16px 6px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .nav-top {
       display:flex;
       align-items:center;
       justify-content:space-between;
-      height:68px;
-      padding:0 4px;
     }
     .logo {
       font-family:'DM Serif Display',serif;
@@ -63,33 +67,26 @@
       background-clip:text;
       color:transparent;
     }
-    .nav {
+
+    /* SECOND ROW NAV UNDER LOGO */
+    .nav-links-row {
       display:flex;
-      align-items:center;
-      gap:24px;
+      flex-wrap:wrap;
+      gap:10px;
+      font-size:11px;
+      color:var(--muted);
     }
-    .nav a {
+    .nav-links-row a {
       text-decoration:none;
       color:var(--muted);
-      font-size:13px;
       font-weight:500;
-      position:relative;
-      padding-bottom:3px;
-      white-space:nowrap;
     }
-    .nav a::after {
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:0;
-      width:0;
-      height:2px;
-      border-radius:999px;
-      background:linear-gradient(135deg,#000,var(--gold));
-      transition:width .2s;
+    .nav-links-row a:hover {
+      color:var(--dark);
     }
-    .nav a:hover { color:var(--dark); }
-    .nav a:hover::after { width:100%; }
+    .nav-links-row span.dot {
+      color:rgba(122,112,96,0.6);
+    }
 
     /* Hero */
     .hero {
@@ -503,13 +500,18 @@
   <div class="page">
     <header class="site-header">
       <div class="container nav-container">
-        <div class="logo">GiftLoop</div>
-        <nav class="nav">
-          <a href="#create">Create Event</a>
+        <div class="nav-top">
+          <div class="logo">GiftLoop</div>
+        </div>
+        <div class="nav-links-row">
+          <a href="#create">Create event</a>
+          <span class="dot">•</span>
           <a href="#how">How it works</a>
+          <span class="dot">•</span>
           <a href="#about">Why it helps</a>
+          <span class="dot">•</span>
           <a href="#contact">Contact</a>
-        </nav>
+        </div>
       </div>
     </header>
 
@@ -782,7 +784,6 @@
     const nextBtn = document.getElementById('nextBtn');
     const stepHint = document.getElementById('stepHint');
 
-    // required fields by step
     const step1Required = [
       'hostName','eventType','eventDate','guestCount','venueName','city','state'
     ];
@@ -847,7 +848,6 @@
         currentStep++;
         updateStepUI();
       } else {
-        // FINAL SUBMIT – save data to sessionStorage and go to admin page
         const payload = {
           hostName: document.getElementById('hostName').value.trim(),
           eventType: document.getElementById('eventType').value,
@@ -870,7 +870,7 @@
       }
     });
 
-    // Wishlist logic
+    // Wishlist
     const wishlistInput = document.getElementById('wishlistInput');
     const wishlistChips = document.getElementById('wishlistChips');
     const sumWishlist = document.getElementById('sumWishlist');
@@ -915,7 +915,7 @@
       }
     });
 
-    // Live summary binding + validation binding
+    // Live summary + validation
     const hostName = document.getElementById('hostName');
     const eventType = document.getElementById('eventType');
     const eventDate = document.getElementById('eventDate');
