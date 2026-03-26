@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GiftLoop Admin – Events & Prices</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #F5EDD6;
+      --gold-dark: #8B6914;
+      --cream: #FDFAF4;
+      --dark: #1A1612;
+      --muted: #7A7060;
+      --border: rgba(201,168,76,0.2);
+      --border-strong: rgba(201,168,76,0.4);
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:'DM Sans',sans-serif;
+      background:var(--cream);
+      color:var(--dark);
+    }
+    .container {
+      max-width:1120px;
+      margin:0 auto;
+      padding:24px 16px 40px;
+    }
+    .logo {
+      font-family:'DM Serif Display',serif;
+      font-size:22px;
+      letter-spacing:0.22em;
+      text-transform:uppercase;
+      background:linear-gradient(120deg,#000,var(--gold),var(--gold-dark));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      margin-bottom:8px;
+    }
+    h1 {
+      font-family:'DM Serif Display',serif;
+      font-size:26px;
+      margin-bottom:4px;
+    }
+    p.sub {
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:20px;
+    }
+    .layout {
+      display:grid;
+      grid-template-columns:260px minmax(0,1fr);
+      gap:16px;
+      align-items:flex-start;
+    }
+    .panel {
+      background:#fff;
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      box-shadow:0 12px 30px rgba(26,22,18,0.06);
+      padding:14px 12px;
+    }
+    .panel h2 {
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--gold-dark);
+      margin-bottom:8px;
+    }
+    .event-list {
+      max-height:420px;
+      overflow-y:auto;
+      padding-right:4px;
+    }
+    .event-item {
+      padding:8px 8px;
+      border-radius:10px;
+      border:1px solid transparent;
+      cursor:pointer;
+      margin-bottom:6px;
+      font-size:12px;
+    }
+    .event-item .title {
+      font-weight:600;
+      margin-bottom:2px;
+    }
+    .event-item .meta {
+      color:var(--muted);
+      font-size:11px;
+    }
+    .event-item.active {
+      border-color:var(--gold);
+      background:var(--gold-light);
+    }
+    .event-item:hover:not(.active) {
+      background:#faf7ee;
+    }
+
+    .detail-section {
+      font-size:13px;
+      margin-bottom:10px;
+    }
+    .detail-row {
+      margin-bottom:3px;
+    }
+    .detail-row span.label {
+      font-weight:600;
+      color:var(--muted);
+      margin-right:4px;
+    }
+    .wishlist-table {
+      width:100%;
+      border-collapse:collapse;
+      margin-top:8px;
+      font-size:13px;
+    }
+    .wishlist-table th,
+    .wishlist-table td {
+      border-bottom:1px solid var(--border);
+      padding:6px 4px;
+      text-align:left;
+    }
+    .wishlist-table th {
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--muted);
+    }
+    .wishlist-table input {
+      width:100%;
+      padding:6px 8px;
+      border-radius:8px;
+      border:1px solid var(--border-strong);
+      font-size:13px;
+      font-family:'DM Sans',sans-serif;
+    }
+    .wishlist-table input:focus {
+      outline:none;
+      border-color:var(--gold);
+      box-shadow:0 0 0 1px rgba(201,168,76,0.35);
+    }
+    .save-btn {
+      margin-top:10px;
+      padding:9px 16px;
+      border-radius:999px;
+      border:none;
+      background:#000;
+      color:var(--gold-light);
+      font-size:13px;
+      font-weight:500;
+      cursor:pointer;
+    }
+    .save-btn:hover {
+      background:#111;
+    }
+    .status {
+      margin-top:6px;
+      font-size:11px;
+      color:var(--muted);
+    }
+    .badge {
+      display:inline-block;
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      background:var(--gold-light);
+      color:var(--gold-dark);
+      margin-left:4px;
+    }
+    .empty {
+      font-size:13px;
+      color:var(--muted);
+      padding:8px 4px;
+    }
+
+    @media(max-width:768px){
+      .layout {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">GiftLoop</div>
+    <h1>Admin – Events & Wishlist Prices</h1>
+    <p class="sub">Only visible to you. Data is stored in this browser’s localStorage; use this page to set prices for each organiser’s wishlist items.</p>
+
+    <div class="layout">
+      <div class="panel">
+        <h2>Events</h2>
+        <div id="eventList" class="event-list"></div>
+        <div id="noEvents" class="empty" style="display:none;">
+          No events yet. Ask organisers to submit the form on your GiftLoop page.
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Selected event details</h2>
+        <div id="detailBox">
+          <p class="empty">Select an event on the left to view and set prices.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const listEl = document.getElementById('eventList');
+    const noEventsEl = document.getElementById('noEvents');
+    const detailBox = document.getElementById('detailBox');
+
+    let events = [];
+    let activeId = null;
+
+    function loadEvents() {
+      events = JSON.parse(localStorage.getItem('giftloopEvents') || '[]');
+      renderEventList();
+    }
+
+    function renderEventList() {
+      listEl.innerHTML = '';
+      if (!events.length) {
+        noEventsEl.style.display = 'block';
+        return;
+      }
+      noEventsEl.style.display = 'none';
+
+      events.forEach(evt => {
+        const div = document.createElement('div');
+        div.className = 'event-item' + (evt.id === activeId ? ' active' : '');
+        div.dataset.id = evt.id;
+        div.innerHTML = `
+          <div class="title">${evt.hostName || 'Unnamed host'}</div>
+          <div class="meta">${evt.eventType || 'Type'} · ${evt.eventDate || 'No date'}</div>
+        `;
+        listEl.appendChild(div);
+      });
+    }
+
+    listEl.addEventListener('click', (e) => {
+      const item = e.target.closest('.event-item');
+      if (!item) return;
+      activeId = item.dataset.id;
+      renderEventList();
+      renderDetail();
+    });
+
+    function renderDetail() {
+      const evt = events.find(e => e.id === activeId);
+      if (!evt) {
+        detailBox.innerHTML = '<p class="empty">Select an event on the left.</p>';
+        return;
+      }
+
+      const loc = [evt.city, evt.state].filter(Boolean).join(', ');
+      const wishlistRows = (evt.wishlist && evt.wishlist.length)
+        ? evt.wishlist.map((w, idx) => `
+            <tr>
+              <td>${idx + 1}</td>
+              <td>${w.name}</td>
+              <td>
+                <input type="text" data-index="${idx}" value="${w.price || ''}" placeholder="e.g. ₹2500" />
+              </td>
+            </tr>
+          `).join('')
+        : `<tr><td colspan="3" class="empty">No wishlist items.</td></tr>`;
+
+      detailBox.innerHTML = `
+        <div class="detail-section">
+          <div class="detail-row">
+            <span class="label">Host:</span>${evt.hostName || '-'}
+            ${evt.eventType ? `<span class="badge">${evt.eventType}</span>` : ''}
+          </div>
+          <div class="detail-row">
+            <span class="label">Date:</span>${evt.eventDate || '-'}
+          </div>
+          <div class="detail-row">
+            <span class="label">Guests:</span>${evt.guestCount || '-'}
+          </div>
+          <div class="detail-row">
+            <span class="label">Venue:</span>${evt.venueName || '-'}
+          </div>
+          <div class="detail-row">
+            <span class="label">Location:</span>${loc || '-'}
+          </div>
+          <div class="detail-row" style="margin-top:4px;">
+            <span class="label">Contact:</span>${evt.contactName || '-'} · ${evt.contactPhone || '-'} · ${evt.contactEmail || '-'}
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <span class="label">Wishlist &amp; prices</span>
+          <table class="wishlist-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody id="priceTableBody">
+              ${wishlistRows}
+            </tbody>
+          </table>
+          <button class="save-btn" id="savePricesBtn">Save prices</button>
+          <div class="status" id="saveStatus"></div>
+        </div>
+      `;
+
+      const saveBtn = document.getElementById('savePricesBtn');
+      const statusEl = document.getElementById('saveStatus');
+      const priceTbody = document.getElementById('priceTableBody');
+
+      saveBtn.addEventListener('click', () => {
+        const inputs = priceTbody.querySelectorAll('input[data-index]');
+        inputs.forEach(input => {
+          const idx = Number(input.dataset.index);
+          if (!evt.wishlist[idx]) return;
+          evt.wishlist[idx].price = input.value.trim();
+        });
+        const idxEvt = events.findIndex(e => e.id === evt.id);
+        if (idxEvt !== -1) {
+          events[idxEvt] = evt;
+          localStorage.setItem('giftloopEvents', JSON.stringify(events));
+          statusEl.textContent = 'Prices saved.';
+          setTimeout(() => { statusEl.textContent = ''; }, 2000);
+        }
+      });
+    }
+
+    loadEvents();
+  </script>
+</body>
+</html>
