@@ -18,6 +18,8 @@
       --border-strong: rgba(201,168,76,0.4);
       --radius: 12px;
       --radius-lg: 20px;
+      --success: #2D7A4F;
+      --success-bg: #EAF5EE;
     }
 
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -67,8 +69,6 @@
       background-clip:text;
       color:transparent;
     }
-
-    /* SECOND ROW NAV UNDER LOGO */
     .nav-links-row {
       display:flex;
       flex-wrap:wrap;
@@ -171,7 +171,7 @@
       box-shadow:0 14px 32px rgba(26,22,18,0.06);
     }
 
-    /* Steps indicator (no numbers) */
+    /* Steps indicator */
     .steps-indicator {
       display:flex;
       justify-content:space-between;
@@ -394,6 +394,51 @@
       line-height:1.4;
     }
 
+    /* Success state */
+    .success-wrap {
+      display:none;
+      margin-top:20px;
+    }
+    .success-card {
+      background:#fff;
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      padding:24px 20px;
+      box-shadow:0 14px 32px rgba(26,22,18,0.06);
+      text-align:center;
+    }
+    .success-icon {
+      width:72px;
+      height:72px;
+      border-radius:50%;
+      background:var(--success-bg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:32px;
+      margin:0 auto 16px;
+      color:var(--success);
+    }
+    .success-title {
+      font-family:'DM Serif Display',serif;
+      font-size:24px;
+      margin-bottom:8px;
+      color:var(--dark);
+    }
+    .success-text {
+      font-size:14px;
+      color:var(--muted);
+      max-width:420px;
+      margin:0 auto 12px;
+      line-height:1.6;
+    }
+    .success-event-line {
+      font-size:14px;
+      color:var(--gold-dark);
+      font-weight:600;
+      margin-top:4px;
+    }
+
     /* Info sections */
     .info-block {
       padding:28px 0 10px;
@@ -543,7 +588,8 @@
             </div>
           </div>
 
-          <div class="wizard-shell">
+          <!-- Wizard + Success -->
+          <div id="wizardWrap" class="wizard-shell">
             <!-- Left: form -->
             <div class="card">
               <div class="steps-indicator">
@@ -681,7 +727,7 @@
                   <li>No items added yet.</li>
                 </ul>
                 <div class="summary-value" style="margin-top:4px; font-size:11px; color:var(--muted);">
-                  After you submit, we’ll store these details and you can review them on the GiftLoop admin page.
+                  After you submit, we’ll review these details and get in touch to finalise pricing and your shareable registry link.
                 </div>
               </div>
 
@@ -693,6 +739,22 @@
               </div>
             </aside>
           </div>
+
+          <!-- Success message (same page) -->
+          <div id="successWrap" class="success-wrap">
+            <div class="success-card">
+              <div class="success-icon">🎉</div>
+              <div class="success-title">We’ve received your wishlist</div>
+              <p class="success-text">
+                Thank you for sharing your event details and desired gifts. Our team will now review your list, set final prices and prepare your GiftLoop registry link and QR code.
+              </p>
+              <div id="successEventLine" class="success-event-line"></div>
+              <p class="success-text" style="margin-top:12px;">
+                You’ll hear from us soon on WhatsApp or email with the next steps.
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -848,25 +910,24 @@
         currentStep++;
         updateStepUI();
       } else {
-        const payload = {
-          hostName: document.getElementById('hostName').value.trim(),
-          eventType: document.getElementById('eventType').value,
-          eventDate: document.getElementById('eventDate').value,
-          guestCount: document.getElementById('guestCount').value,
-          venueName: document.getElementById('venueName').value.trim(),
-          city: document.getElementById('city').value.trim(),
-          state: document.getElementById('state').value.trim(),
-          wishlist: wishlist,
-          contactName: document.getElementById('contactName').value.trim(),
-          contactPhone: document.getElementById('contactPhone').value.trim(),
-          contactEmail: document.getElementById('contactEmail').value.trim(),
-          contactTime: document.getElementById('contactTime').value.trim(),
-          extraNotes: document.getElementById('extraNotes').value.trim(),
-          submittedAt: new Date().toISOString()
-        };
+        // Final submit: hide wizard, show success
+        const wizardWrap = document.getElementById('wizardWrap');
+        const successWrap = document.getElementById('successWrap');
+        const eventTypeVal = document.getElementById('eventType').value;
+        const successEventLine = document.getElementById('successEventLine');
 
-        sessionStorage.setItem('giftloopEvent', JSON.stringify(payload));
-        window.location.href = 'giftloopadmin.html';
+        let msg = '';
+        if (eventTypeVal === 'Wedding') msg = 'Happy Wedding from GiftLoop.';
+        else if (eventTypeVal === 'Birthday party') msg = 'Happy Birthday from GiftLoop.';
+        else if (eventTypeVal === 'Baby shower') msg = 'Happy Baby Shower from GiftLoop.';
+        else if (eventTypeVal === 'Anniversary') msg = 'Happy Anniversary from GiftLoop.';
+        else if (eventTypeVal === 'Engagement') msg = 'Happy Engagement from GiftLoop.';
+        else if (eventTypeVal === 'House warming') msg = 'Happy House Warming from GiftLoop.';
+
+        successEventLine.textContent = msg;
+        wizardWrap.style.display = 'none';
+        successWrap.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
 
