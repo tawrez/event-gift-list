@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GiftLoop – Smart Event Gift Lists</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Top Navigation -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <div class="logo">GiftLoop</div>
+      <nav class="nav">
+        <a href="#create">Create Event</a>
+        <a href="#how">How it works</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero / Create Event -->
+  <main>
+    <section id="create" class="hero">
+      <div class="container hero-content">
+        <div class="hero-text">
+          <h1>Turn your event into the perfect gift experience</h1>
+          <p>
+            Create a simple gift list, share it with a QR code, and let your guests
+            choose exactly what you actually want—without duplicates or confusion.
+          </p>
+          <button id="startCreateBtn" class="primary-btn">
+            Start creating your list
+          </button>
+          <p class="hero-note">
+            No login, no app download, takes less than a minute.
+          </p>
+        </div>
+        <div class="hero-card">
+          <h2>Quick Event Setup</h2>
+          <label>Event name</label>
+          <input type="text" placeholder="e.g. Ananya's 21st Birthday" />
+          <label>First gift</label>
+          <input type="text" placeholder="e.g. Wireless headphones" />
+          <button class="secondary-btn">Preview gift list</button>
+          <p class="hero-mini">
+            On the next step you’ll add more gifts and download your QR code.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it Works -->
+    <section id="how" class="section">
+      <div class="container">
+        <h2>How it works</h2>
+        <div class="steps">
+          <div class="step">
+            <span class="step-number">1</span>
+            <h3>Create your list</h3>
+            <p>
+              Enter your event name and add the gifts you’d love to receive.
+              Each gift shows as available or taken so nothing gets repeated.
+            </p>
+          </div>
+          <div class="step">
+            <span class="step-number">2</span>
+            <h3>Share the QR code</h3>
+            <p>
+              We generate a unique link and QR code. Download it and print it
+              on your invitation card or share it on WhatsApp.
+            </p>
+          </div>
+          <div class="step">
+            <span class="step-number">3</span>
+            <h3>Guests pick and pay</h3>
+            <p>
+              Guests scan the QR, see your list, choose one gift and pay
+              securely. As soon as a gift is taken, it’s marked unavailable.
+            </p>
+          </div>
+          <div class="step">
+            <span class="step-number">4</span>
+            <h3>Gift verification at event</h3>
+            <p>
+              Every paid gift gets a unique code. At the event, you match the
+              code and hand over the gift to the right guest.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section section-alt">
+      <div class="container">
+        <h2>Why we built this</h2>
+        <p>
+          Traditional gifting creates awkward moments—three people bring the
+          same thing, someone spends a lot on something you’ll never use, and
+          guests are always guessing what to buy.
+        </p>
+        <p>
+          This simple tool fixes that. You stay in control of your wishlist,
+          guests feel confident about what they’re gifting, and the entire
+          process is smooth, transparent and organised.
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2>Contact</h2>
+        <p>
+          Have a question, feature idea or want this for your venue or event
+          business? Drop a quick message and we’ll get back to you.
+        </p>
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('This is a demo. Hook this to email or Firestore later.');">
+          <div class="form-row">
+            <input type="text" placeholder="Your name" required />
+            <input type="email" placeholder="Email or WhatsApp" required />
+          </div>
+          <textarea rows="4" placeholder="Tell us what you have in mind..." required></textarea>
+          <button type="submit" class="primary-btn">Send message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> GiftLoop. Built in India for better gifting.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("startCreateBtn").addEventListener("click", () => {
+      // Later: scroll to actual create-form section or navigate to /create page
+      document.getElementById("create").scrollIntoView({ behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
