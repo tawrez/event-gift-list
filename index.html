@@ -63,7 +63,11 @@
       background-clip:text;
       color:transparent;
     }
-    .nav { display:flex; align-items:center; gap:24px; }
+    .nav {
+      display:flex;
+      align-items:center;
+      gap:24px;
+    }
     .nav a {
       text-decoration:none;
       color:var(--muted);
@@ -169,7 +173,7 @@
       box-shadow:0 14px 32px rgba(26,22,18,0.06);
     }
 
-    /* Steps indicator */
+    /* Steps indicator (no numbers now) */
     .steps-indicator {
       display:flex;
       justify-content:space-between;
@@ -183,7 +187,7 @@
       min-width:0;
       display:flex;
       align-items:center;
-      gap:8px;
+      justify-content:center;
       padding:7px 10px;
       border-radius:999px;
       border:1px solid var(--border);
@@ -191,26 +195,14 @@
       color:var(--muted);
       background:var(--cream);
       white-space:nowrap;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:1px;
     }
     .step-chip.active {
       border-color:#000;
       background:#000;
       color:var(--gold-light);
-    }
-    .step-no {
-      width:20px;
-      height:20px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:11px;
-      background:var(--gold-light);
-      color:var(--dark);
-    }
-    .step-chip.active .step-no {
-      background:linear-gradient(135deg,#000,var(--gold));
-      color:var(--cream);
     }
 
     /* Form sections */
@@ -333,16 +325,26 @@
       color:var(--gold-light);
       box-shadow:0 10px 26px rgba(26,22,18,0.35);
     }
-    .primary-btn:hover {
+    .primary-btn:hover:not(.disabled) {
       background:#000;
+    }
+    .primary-btn.disabled {
+      background:#e5e5e5;
+      color:#a3a3a3;
+      box-shadow:none;
+      cursor:not-allowed;
     }
     .ghost-btn {
       background:var(--cream);
       border:1px solid var(--border-strong);
       color:var(--dark);
     }
-    .ghost-btn:hover {
+    .ghost-btn:hover:not(:disabled) {
       background:var(--gold-light);
+    }
+    .ghost-btn:disabled {
+      opacity:0.6;
+      cursor:not-allowed;
     }
     .step-hint {
       font-size:11px;
@@ -483,7 +485,7 @@
     }
 
     @media(max-width:640px) {
-      .nav { display:none; }
+      /* Show full nav even on phone as requested */
       .hero { padding-top:24px; }
       .card-footer {
         flex-direction:column-reverse;
@@ -518,7 +520,7 @@
             <div class="hero-kicker">EVENT GIFT REGISTRY</div>
             <h1 class="hero-title">One shared gift list for your entire event.</h1>
             <p class="hero-sub">
-              GiftLoop collects your wishlist, turns it into a gold‑themed gift‑registry page and QR code, and sends it to your guests so they can choose gifts you’ll truly use.
+              GiftLoop collects your wishlist, turns it into a gold‑themed gift‑registry page and QR code, and sends it to your guests so they can choose gifts you’ll actually use.
             </p>
             <div class="hero-benefits">
               No more repeated home appliances, random showpieces or last‑minute panic at the mall — just one clean list that keeps every gift unique.
@@ -543,18 +545,9 @@
             <!-- Left: form -->
             <div class="card">
               <div class="steps-indicator">
-                <div class="step-chip active" data-step-chip="1">
-                  <div class="step-no">1</div>
-                  <div>Event details</div>
-                </div>
-                <div class="step-chip" data-step-chip="2">
-                  <div class="step-no">2</div>
-                  <div>Wishlist</div>
-                </div>
-                <div class="step-chip" data-step-chip="3">
-                  <div class="step-no">3</div>
-                  <div>Contact info</div>
-                </div>
+                <div class="step-chip active" data-step-chip="1">Event details</div>
+                <div class="step-chip" data-step-chip="2">Wishlist</div>
+                <div class="step-chip" data-step-chip="3">Contact info</div>
               </div>
 
               <!-- Step 1 -->
@@ -565,12 +558,12 @@
                 </p>
                 <div class="field-grid">
                   <div class="field">
-                    <label for="hostName">Organiser / host name</label>
-                    <input id="hostName" type="text" placeholder="e.g. Riya &amp; Arjun" />
+                    <label for="hostName">Organiser / host name *</label>
+                    <input id="hostName" type="text" placeholder="e.g. Riya &amp; Arjun" required />
                   </div>
                   <div class="field">
-                    <label for="eventType">Event type</label>
-                    <select id="eventType">
+                    <label for="eventType">Event type *</label>
+                    <select id="eventType" required>
                       <option value="">Select type…</option>
                       <option>Wedding</option>
                       <option>Birthday party</option>
@@ -582,24 +575,24 @@
                     </select>
                   </div>
                   <div class="field">
-                    <label for="eventDate">Event date</label>
-                    <input id="eventDate" type="date" />
+                    <label for="eventDate">Event date *</label>
+                    <input id="eventDate" type="date" required />
                   </div>
                   <div class="field">
-                    <label for="guestCount">Expected guests</label>
-                    <input id="guestCount" type="number" min="1" placeholder="e.g. 150" />
+                    <label for="guestCount">Expected guests *</label>
+                    <input id="guestCount" type="number" min="1" placeholder="e.g. 150" required />
                   </div>
                   <div class="field">
-                    <label for="venueName">Venue name</label>
-                    <input id="venueName" type="text" placeholder="e.g. The Leela Palace" />
+                    <label for="venueName">Venue name *</label>
+                    <input id="venueName" type="text" placeholder="e.g. The Leela Palace" required />
                   </div>
                   <div class="field">
-                    <label for="city">City</label>
-                    <input id="city" type="text" placeholder="e.g. Bengaluru" />
+                    <label for="city">City *</label>
+                    <input id="city" type="text" placeholder="e.g. Bengaluru" required />
                   </div>
                   <div class="field">
-                    <label for="state">State</label>
-                    <input id="state" type="text" placeholder="e.g. Karnataka" />
+                    <label for="state">State *</label>
+                    <input id="state" type="text" placeholder="e.g. Karnataka" required />
                   </div>
                 </div>
               </div>
@@ -609,7 +602,7 @@
                 <h2 class="step-title">Build your wish list</h2>
                 <p class="step-desc">
                   Add every gift you’d be happy to receive — home items, appliances, decor, experiences, vouchers or contribution‑based gifts.
-                  We’ll review and set final prices before sharing it with your guests.
+                  Please add at least one item before moving ahead.
                 </p>
                 <div class="wishlist-wrap">
                   <div class="wishlist-input-row">
@@ -619,7 +612,7 @@
                   <div id="wishlistChips" class="wishlist-list"></div>
                 </div>
                 <p class="step-desc" style="margin-top:6px;">
-                  Once your registry goes live, guests will only see gifts that are still available. Anything that’s already chosen will automatically be marked as “taken” to avoid repetition.
+                  When your registry goes live, guests will only see gifts that are still available. Anything already chosen is automatically marked as “taken” to avoid repetition.
                 </p>
               </div>
 
@@ -631,16 +624,16 @@
                 </p>
                 <div class="field-grid">
                   <div class="field">
-                    <label for="contactName">Primary contact name</label>
-                    <input id="contactName" type="text" placeholder="e.g. Riya Sharma" />
+                    <label for="contactName">Primary contact name *</label>
+                    <input id="contactName" type="text" placeholder="e.g. Riya Sharma" required />
                   </div>
                   <div class="field">
-                    <label for="contactPhone">WhatsApp number</label>
-                    <input id="contactPhone" type="tel" placeholder="10‑digit Indian number" />
+                    <label for="contactPhone">WhatsApp number *</label>
+                    <input id="contactPhone" type="tel" placeholder="10‑digit Indian number" required />
                   </div>
                   <div class="field">
-                    <label for="contactEmail">Email address</label>
-                    <input id="contactEmail" type="email" placeholder="e.g. you@example.com" />
+                    <label for="contactEmail">Email address *</label>
+                    <input id="contactEmail" type="email" placeholder="e.g. you@example.com" required />
                   </div>
                   <div class="field">
                     <label for="contactTime">Preferred contact time</label>
@@ -654,9 +647,9 @@
               </div>
 
               <div class="card-footer">
-                <button type="button" class="ghost-btn" id="prevBtn" disabled>← Back</button>
+                <button type="button" class="ghost-btn" id="prevBtn">Back</button>
                 <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex:1;">
-                  <button type="button" class="primary-btn" id="nextBtn">Next step →</button>
+                  <button type="button" class="primary-btn disabled" id="nextBtn">Next step</button>
                   <div class="step-hint" id="stepHint">Step 1 of 3</div>
                 </div>
               </div>
@@ -707,7 +700,7 @@
           <div class="info-heading">HOW GIFTLOOP WORKS</div>
           <h2 class="info-title">From wishlist to shareable QR code.</h2>
           <p class="info-text">
-            Instead of everyone guessing what to buy, your guests see a single curated list of gifts you’ve already approved — in a simple gold and cream interface that feels right at home with a wedding or baby‑shower invite.
+            Instead of everyone guessing what to buy, your guests see a single curated list of gifts you’ve already approved — in a simple gold and cream interface that fits perfectly with wedding or baby‑shower invites.
           </p>
           <div class="info-columns">
             <div class="info-card">
@@ -738,7 +731,7 @@
           <div class="info-columns">
             <div class="info-card">
               <strong>Perfect for large guest lists</strong><br />
-              One common list keeps everyone aligned. Guests don’t have to call your relatives for suggestions or worry if someone already bought the same thing.
+              One shared list keeps everyone aligned. Guests don’t have to call your relatives for suggestions or worry if someone already bought the same thing.
             </div>
             <div class="info-card">
               <strong>Comfortable for every budget</strong><br />
@@ -789,6 +782,44 @@
     const nextBtn = document.getElementById('nextBtn');
     const stepHint = document.getElementById('stepHint');
 
+    // required fields by step
+    const step1Required = [
+      'hostName','eventType','eventDate','guestCount','venueName','city','state'
+    ];
+    const step2NeedsItem = true;
+    const step3Required = [
+      'contactName','contactPhone','contactEmail'
+    ];
+
+    function isStepValid(step) {
+      if (step === 1) {
+        return step1Required.every(id => {
+          const el = document.getElementById(id);
+          return el && el.value.trim() !== '';
+        });
+      }
+      if (step === 2) {
+        return wishlist.length > 0;
+      }
+      if (step === 3) {
+        return step3Required.every(id => {
+          const el = document.getElementById(id);
+          return el && el.value.trim() !== '';
+        });
+      }
+      return false;
+    }
+
+    function updateNextState() {
+      if (isStepValid(currentStep)) {
+        nextBtn.classList.remove('disabled');
+        nextBtn.disabled = false;
+      } else {
+        nextBtn.classList.add('disabled');
+        nextBtn.disabled = true;
+      }
+    }
+
     function updateStepUI() {
       steps.forEach(n => {
         stepEls[n].style.display = n === currentStep ? 'block' : 'none';
@@ -798,8 +829,9 @@
         chip.classList.toggle('active', n === currentStep);
       });
       prevBtn.disabled = currentStep === 1;
-      nextBtn.textContent = currentStep === 3 ? 'Send to GiftLoop →' : 'Next step →';
       stepHint.textContent = `Step ${currentStep} of 3`;
+      nextBtn.textContent = currentStep === 3 ? 'Send to GiftLoop' : 'Next step';
+      updateNextState();
     }
 
     prevBtn.addEventListener('click', () => {
@@ -810,6 +842,7 @@
     });
 
     nextBtn.addEventListener('click', () => {
+      if (!isStepValid(currentStep)) return;
       if (currentStep < 3) {
         currentStep++;
         updateStepUI();
@@ -831,18 +864,20 @@
 
       if (!wishlist.length) {
         sumWishlist.innerHTML = '<li>No items added yet.</li>';
-        return;
-      }
-      wishlist.forEach((item, idx) => {
-        const chip = document.createElement('div');
-        chip.className = 'chip';
-        chip.innerHTML = `<span>${item}</span><span class="remove" data-idx="${idx}">×</span>`;
-        wishlistChips.appendChild(chip);
+      } else {
+        wishlist.forEach((item, idx) => {
+          const chip = document.createElement('div');
+          chip.className = 'chip';
+          chip.innerHTML = `<span>${item}</span><span class="remove" data-idx="${idx}">×</span>`;
+          wishlistChips.appendChild(chip);
 
-        const li = document.createElement('li');
-        li.textContent = item;
-        sumWishlist.appendChild(li);
-      });
+          const li = document.createElement('li');
+          li.textContent = item;
+          sumWishlist.appendChild(li);
+        });
+      }
+
+      if (currentStep === 2) updateNextState();
     }
 
     addWishlistItemBtn.addEventListener('click', () => {
@@ -861,7 +896,7 @@
       }
     });
 
-    // Live summary binding
+    // Live summary binding + validation binding
     const hostName = document.getElementById('hostName');
     const eventType = document.getElementById('eventType');
     const eventDate = document.getElementById('eventDate');
@@ -884,39 +919,60 @@
     const sumContactPhone = document.getElementById('sumContactPhone');
     const sumContactEmail = document.getElementById('sumContactEmail');
 
-    hostName.addEventListener('input', () => {
+    function bindAndValidate(el, updateFn, stepIdx) {
+      if (!el) return;
+      el.addEventListener('input', () => {
+        if (updateFn) updateFn();
+        if (currentStep === stepIdx) updateNextState();
+      });
+      if (el.tagName === 'SELECT') {
+        el.addEventListener('change', () => {
+          if (updateFn) updateFn();
+          if (currentStep === stepIdx) updateNextState();
+        });
+      }
+    }
+
+    bindAndValidate(hostName, () => {
       sumHost.textContent = hostName.value.trim() || 'Host name not added';
-    });
-    eventType.addEventListener('change', () => {
+    }, 1);
+
+    bindAndValidate(eventType, () => {
       sumType.textContent = eventType.value || 'Event type not selected';
-    });
-    eventDate.addEventListener('change', () => {
+    }, 1);
+
+    bindAndValidate(eventDate, () => {
       sumDate.textContent = eventDate.value ? `On ${eventDate.value}` : 'Date not set';
-    });
-    guestCount.addEventListener('input', () => {
+    }, 1);
+
+    bindAndValidate(guestCount, () => {
       const val = guestCount.value.trim();
       sumGuests.textContent = val ? `${val} guests expected` : '';
-    });
-    venueName.addEventListener('input', () => {
+    }, 1);
+
+    bindAndValidate(venueName, () => {
       sumVenue.textContent = venueName.value.trim() || 'Venue not added';
-    });
+    }, 1);
+
     function updateLocation() {
       const c = city.value.trim();
       const s = state.value.trim();
       sumLocation.textContent = c || s ? [c,s].filter(Boolean).join(', ') : '';
     }
-    city.addEventListener('input', updateLocation);
-    state.addEventListener('input', updateLocation);
+    bindAndValidate(city, updateLocation, 1);
+    bindAndValidate(state, updateLocation, 1);
 
-    contactName.addEventListener('input', () => {
+    bindAndValidate(contactName, () => {
       sumContactName.textContent = contactName.value.trim() || 'Not provided';
-    });
-    contactPhone.addEventListener('input', () => {
+    }, 3);
+
+    bindAndValidate(contactPhone, () => {
       sumContactPhone.textContent = contactPhone.value.trim();
-    });
-    contactEmail.addEventListener('input', () => {
+    }, 3);
+
+    bindAndValidate(contactEmail, () => {
       sumContactEmail.textContent = contactEmail.value.trim();
-    });
+    }, 3);
 
     document.getElementById('year').textContent = new Date().getFullYear();
     updateStepUI();
