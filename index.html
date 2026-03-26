@@ -28,13 +28,13 @@
           <h1>Turn your event into the perfect gift experience</h1>
           <p>
             Create a simple gift list, share it with a QR code, and let your guests
-            choose exactly what you actually want—without duplicates or confusion.
+            choose exactly what you actually want, without duplicates or awkward gifts.
           </p>
           <button id="startCreateBtn" class="primary-btn">
             Start creating your list
           </button>
           <p class="hero-note">
-            No login, no app download, takes less than a minute.
+            No login, no app download—set it up in under a minute.
           </p>
         </div>
         <div class="hero-card">
@@ -45,7 +45,7 @@
           <input type="text" placeholder="e.g. Wireless headphones" />
           <button class="secondary-btn">Preview gift list</button>
           <p class="hero-mini">
-            On the next step you’ll add more gifts and download your QR code.
+            Next, you’ll add more gifts and download your QR code to print on invites.
           </p>
         </div>
       </div>
@@ -60,32 +60,32 @@
             <span class="step-number">1</span>
             <h3>Create your list</h3>
             <p>
-              Enter your event name and add the gifts you’d love to receive.
-              Each gift shows as available or taken so nothing gets repeated.
+              Add your event details and list the gifts you’d actually love.
+              Each gift is tracked so the same thing is never bought twice.
             </p>
           </div>
           <div class="step">
             <span class="step-number">2</span>
             <h3>Share the QR code</h3>
             <p>
-              We generate a unique link and QR code. Download it and print it
-              on your invitation card or share it on WhatsApp.
+              We generate a unique link and QR code for your event.
+              Print it on your card or share it on WhatsApp with your guests.
             </p>
           </div>
           <div class="step">
             <span class="step-number">3</span>
             <h3>Guests pick and pay</h3>
             <p>
-              Guests scan the QR, see your list, choose one gift and pay
-              securely. As soon as a gift is taken, it’s marked unavailable.
+              Guests scan the QR, see your list, choose one gift and pay securely.
+              Once a gift is taken, it instantly shows as unavailable.
             </p>
           </div>
           <div class="step">
             <span class="step-number">4</span>
-            <h3>Gift verification at event</h3>
+            <h3>Verify gifts at the event</h3>
             <p>
               Every paid gift gets a unique code. At the event, you match the
-              code and hand over the gift to the right guest.
+              code and hand over the right gift to the right person—fully tracked.
             </p>
           </div>
         </div>
@@ -94,30 +94,41 @@
 
     <!-- About -->
     <section id="about" class="section section-alt">
-      <div class="container">
-        <h2>Why we built this</h2>
-        <p>
-          Traditional gifting creates awkward moments—three people bring the
-          same thing, someone spends a lot on something you’ll never use, and
-          guests are always guessing what to buy.
-        </p>
-        <p>
-          This simple tool fixes that. You stay in control of your wishlist,
-          guests feel confident about what they’re gifting, and the entire
-          process is smooth, transparent and organised.
-        </p>
+      <div class="container about-grid">
+        <div>
+          <h2>Built for modern events</h2>
+          <p>
+            Traditional gifting is broken. People guess what to buy, spend money
+            on things you might never use, and you end up with duplicates or
+            random items you can’t return.
+          </p>
+          <p>
+            GiftLoop keeps everything organised. You decide the wishlist, guests
+            pick from it with confidence, and the whole experience feels easy,
+            thoughtful and efficient.
+          </p>
+        </div>
+        <div class="about-card">
+          <h3>Perfect for</h3>
+          <ul>
+            <li>Birthdays and anniversaries</li>
+            <li>Weddings and engagements</li>
+            <li>Baby showers and housewarmings</li>
+            <li>Office parties and farewells</li>
+          </ul>
+        </div>
       </div>
     </section>
 
     <!-- Contact -->
     <section id="contact" class="section">
       <div class="container">
-        <h2>Contact</h2>
-        <p>
-          Have a question, feature idea or want this for your venue or event
-          business? Drop a quick message and we’ll get back to you.
+        <h2>Talk to us</h2>
+        <p class="section-intro">
+          Have a question, feature idea, or want GiftLoop for your venue or event business?
+          Send a quick message and we’ll get back to you.
         </p>
-        <form class="contact-form" onsubmit="event.preventDefault(); alert('This is a demo. Hook this to email or Firestore later.');">
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('Demo only for now. Hook this to email or Firestore later.');">
           <div class="form-row">
             <input type="text" placeholder="Your name" required />
             <input type="email" placeholder="Email or WhatsApp" required />
@@ -130,15 +141,15 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container">
+    <div class="container footer-inner">
       <p>© <span id="year"></span> GiftLoop. Built in India for better gifting.</p>
+      <p class="footer-note">MVP prototype – flows and payments still in progress.</p>
     </div>
   </footer>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
     document.getElementById("startCreateBtn").addEventListener("click", () => {
-      // Later: scroll to actual create-form section or navigate to /create page
       document.getElementById("create").scrollIntoView({ behavior: "smooth" });
     });
   </script>
