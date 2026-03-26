@@ -75,6 +75,7 @@
       font-weight:500;
       position:relative;
       padding-bottom:3px;
+      white-space:nowrap;
     }
     .nav a::after {
       content:"";
@@ -173,7 +174,7 @@
       box-shadow:0 14px 32px rgba(26,22,18,0.06);
     }
 
-    /* Steps indicator (no numbers now) */
+    /* Steps indicator (no numbers) */
     .steps-indicator {
       display:flex;
       justify-content:space-between;
@@ -485,7 +486,6 @@
     }
 
     @media(max-width:640px) {
-      /* Show full nav even on phone as requested */
       .hero { padding-top:24px; }
       .card-footer {
         flex-direction:column-reverse;
@@ -679,7 +679,7 @@
                   <li>No items added yet.</li>
                 </ul>
                 <div class="summary-value" style="margin-top:4px; font-size:11px; color:var(--muted);">
-                  After you submit, our team will assign prices, keep track of what’s already gifted, and generate a QR &amp; link you can add to invitations or WhatsApp groups.
+                  After you submit, we’ll store these details and you can review them on the GiftLoop admin page.
                 </div>
               </div>
 
@@ -786,7 +786,6 @@
     const step1Required = [
       'hostName','eventType','eventDate','guestCount','venueName','city','state'
     ];
-    const step2NeedsItem = true;
     const step3Required = [
       'contactName','contactPhone','contactEmail'
     ];
@@ -843,11 +842,31 @@
 
     nextBtn.addEventListener('click', () => {
       if (!isStepValid(currentStep)) return;
+
       if (currentStep < 3) {
         currentStep++;
         updateStepUI();
       } else {
-        alert('In the live version, this would send your event details and wishlist to GiftLoop so we can set prices, avoid duplicate gifts and generate your QR + link.');
+        // FINAL SUBMIT – save data to sessionStorage and go to admin page
+        const payload = {
+          hostName: document.getElementById('hostName').value.trim(),
+          eventType: document.getElementById('eventType').value,
+          eventDate: document.getElementById('eventDate').value,
+          guestCount: document.getElementById('guestCount').value,
+          venueName: document.getElementById('venueName').value.trim(),
+          city: document.getElementById('city').value.trim(),
+          state: document.getElementById('state').value.trim(),
+          wishlist: wishlist,
+          contactName: document.getElementById('contactName').value.trim(),
+          contactPhone: document.getElementById('contactPhone').value.trim(),
+          contactEmail: document.getElementById('contactEmail').value.trim(),
+          contactTime: document.getElementById('contactTime').value.trim(),
+          extraNotes: document.getElementById('extraNotes').value.trim(),
+          submittedAt: new Date().toISOString()
+        };
+
+        sessionStorage.setItem('giftloopEvent', JSON.stringify(payload));
+        window.location.href = 'giftloopadmin.html';
       }
     });
 
