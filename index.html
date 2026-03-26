@@ -7,21 +7,25 @@
   <style>
     * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; scroll-behavior: smooth; }
+
     :root {
-      --gold-soft: #f7e6b5;
-      --gold-accent: #d9b257;
-      --gold-deep: #a27b2c;
-      --bg-dark: #050506;
-      --bg-elevated: #0b0b0e;
-      --card-dark: #111111;
-      --border-soft: #262626;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
+      --bg-page: #f8fafc;
+      --bg-soft: #ffffff;
+      --bg-accent: #fff7ed;
+      --border-soft: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent-soft: #f97373;
+      --gold-1: #fbbf24;
+      --gold-2: #f97316;
+      --gold-3: #ec4899;
     }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text-main);
-      background: radial-gradient(circle at top left, #18181b 0, #020617 45%, #000 100%);
+      background:
+        radial-gradient(circle at top left, #e0f2fe 0, #f8fafc 40%, #fefce8 100%);
     }
 
     .page {
@@ -38,9 +42,9 @@
 
     /* Header / Nav */
     .site-header {
-      border-bottom: 1px solid #111827;
-      background: rgba(0,0,0,0.9);
-      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(148,163,184,0.35);
+      backdrop-filter: blur(16px);
+      background: rgba(255,255,255,0.9);
       position: sticky;
       top: 0;
       z-index: 10;
@@ -49,20 +53,23 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 64px;
+      height: 76px; /* a bit taller to move logo down */
     }
     .logo {
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: 0.22em;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--gold-soft);
+      background: linear-gradient(120deg, var(--gold-1), var(--gold-2), var(--gold-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
     .nav a {
       margin-left: 20px;
       font-size: 0.9rem;
       text-decoration: none;
-      color: #e5e7eb;
+      color: var(--text-muted);
       position: relative;
       padding-bottom: 3px;
     }
@@ -73,10 +80,11 @@
       bottom: 0;
       width: 0;
       height: 2px;
-      background: var(--gold-accent);
+      background: linear-gradient(120deg, var(--gold-1), var(--gold-2));
       transition: width 0.2s ease-out;
+      border-radius: 999px;
     }
-    .nav a:hover { color: #ffffff; }
+    .nav a:hover { color: var(--text-main); }
     .nav a:hover::after { width: 100%; }
 
     /* Hero */
@@ -86,76 +94,75 @@
     .hero-header {
       text-align: left;
       margin-bottom: 24px;
-      max-width: 680px;
+      max-width: 720px;
     }
     .hero-kicker {
       font-size: 0.8rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--gold-soft);
-      margin-bottom: 6px;
+      color: #f97316;
+      margin-bottom: 8px;
     }
     .hero-title {
-      font-size: 2.1rem;
+      font-size: 2.2rem;
       margin-bottom: 10px;
     }
     .hero-sub {
-      max-width: 560px;
-      font-size: 0.95rem;
+      max-width: 620px;
+      font-size: 0.98rem;
       color: var(--text-muted);
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .hero-benefits {
       margin-top: 18px;
-      max-width: 640px;
-      font-size: 0.88rem;
+      max-width: 680px;
+      font-size: 0.9rem;
       color: var(--text-muted);
-      line-height: 1.6;
+      line-height: 1.7;
     }
-    .hero-benefits strong {
-      color: var(--gold-soft);
-      font-weight: 600;
-    }
-
     .benefit-points {
       margin-top: 10px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
       gap: 10px 16px;
-      font-size: 0.82rem;
-      color: #e5e7eb;
+      font-size: 0.85rem;
+      color: var(--text-main);
     }
     .benefit-pill {
-      border-radius: 999px;
-      border: 1px solid rgba(217,178,87,0.28);
-      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(217,178,87,0.04));
-      padding: 7px 11px;
+      border-radius: 16px;
+      border: 1px solid rgba(251,191,36,0.35);
+      background: linear-gradient(135deg, #fff7ed, #fffbeb);
+      padding: 8px 11px;
       display: flex;
-      align-items: center;
-      gap: 6px;
+      align-items: flex-start;
+      gap: 8px;
     }
     .benefit-dot {
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 999px;
-      background: var(--gold-accent);
+      background: linear-gradient(130deg, var(--gold-1), var(--gold-2));
+      margin-top: 4px;
+      flex-shrink: 0;
     }
 
     .wizard-shell {
       display: grid;
       grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
-      gap: 32px;
+      gap: 28px;
       align-items: flex-start;
-      margin-top: 24px;
+      margin-top: 26px;
     }
 
     .card {
-      background: radial-gradient(circle at top left, #1a1a1f 0, #050509 50%, #000 100%);
+      background: var(--bg-soft);
       border-radius: 20px;
-      border: 1px solid rgba(148,163,184,0.2);
+      border: 1px solid var(--border-soft);
       padding: 22px 20px 18px;
-      box-shadow: 0 24px 70px rgba(0,0,0,0.85);
+      box-shadow:
+        0 18px 40px rgba(15,23,42,0.08),
+        0 1px 2px rgba(15,23,42,0.04);
     }
 
     /* Steps indicator */
@@ -170,17 +177,17 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 10px;
+      padding: 7px 10px;
       border-radius: 999px;
-      border: 1px solid #27272a;
-      font-size: 0.76rem;
-      color: #9ca3af;
-      background: rgba(15,23,42,0.8);
+      border: 1px solid #e2e8f0;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: #f9fafb;
     }
     .step-chip.active {
-      border-color: var(--gold-accent);
-      background: radial-gradient(circle at top left, rgba(217,178,87,0.3), rgba(0,0,0,0.8));
-      color: #f9fafb;
+      border-color: rgba(251,191,36,0.7);
+      background: linear-gradient(135deg,#fef3c7,#fffbeb);
+      color: var(--text-main);
     }
     .step-no {
       width: 20px;
@@ -190,12 +197,12 @@
       align-items: center;
       justify-content: center;
       font-size: 0.7rem;
-      background: #020617;
-      color: #e5e7eb;
+      background: #e2e8f0;
+      color: var(--text-main);
     }
     .step-chip.active .step-no {
-      background: var(--gold-accent);
-      color: #111;
+      background: linear-gradient(130deg, var(--gold-1), var(--gold-2));
+      color: white;
     }
 
     /* Form sections */
@@ -220,23 +227,23 @@
       font-size: 0.78rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #9ca3af;
+      color: var(--text-muted);
     }
     input, select, textarea {
-      background: #020617;
+      background: #ffffff;
       border-radius: 10px;
-      border: 1px solid #27272a;
-      color: #f9fafb;
+      border: 1px solid #d1d5db;
+      color: var(--text-main);
       padding: 8px 10px;
       font-size: 0.9rem;
       outline: none;
     }
     input::placeholder, textarea::placeholder {
-      color: #6b7280;
+      color: #9ca3af;
     }
     input:focus, select:focus, textarea:focus {
-      border-color: var(--gold-accent);
-      box-shadow: 0 0 0 1px rgba(210,166,60,0.35);
+      border-color: #fb923c;
+      box-shadow: 0 0 0 1px rgba(251,146,60,0.35);
     }
     textarea { resize: vertical; min-height: 72px; }
 
@@ -252,16 +259,16 @@
     }
     .pill-btn {
       border-radius: 999px;
-      border: 1px solid var(--gold-accent);
-      background: linear-gradient(135deg, rgba(217,178,87,0.16), rgba(161,98,7,0.16));
-      color: var(--gold-soft);
+      border: 1px solid #fb923c;
+      background: linear-gradient(135deg,#fed7aa,#fffbeb);
+      color: #9a3412;
       padding: 8px 14px;
       font-size: 0.8rem;
       cursor: pointer;
       white-space: nowrap;
     }
     .pill-btn:hover {
-      background: linear-gradient(135deg, rgba(217,178,87,0.26), rgba(161,98,7,0.22));
+      background: linear-gradient(135deg,#fdba74,#fef3c7);
     }
     .wishlist-list {
       display: flex;
@@ -271,18 +278,18 @@
     }
     .chip {
       border-radius: 999px;
-      border: 1px solid #27272a;
+      border: 1px solid #e2e8f0;
       padding: 5px 10px;
       font-size: 0.8rem;
       display: flex;
       align-items: center;
       gap: 6px;
-      background: #020617;
-      color: #e5e7eb;
+      background: #f9fafb;
+      color: var(--text-main);
     }
     .chip span.remove {
       cursor: pointer;
-      color: #f97373;
+      color: #dc2626;
       font-size: 0.8rem;
     }
 
@@ -306,26 +313,26 @@
       transition: transform 0.1s, box-shadow 0.1s, background 0.1s, color 0.1s, border-color 0.1s;
     }
     .primary-btn {
-      background: linear-gradient(135deg, #f8e7b8, #d9b257);
-      color: #111111;
-      box-shadow: 0 14px 30px rgba(0,0,0,0.7);
+      background: linear-gradient(135deg, var(--gold-1), var(--gold-2));
+      color: #111827;
+      box-shadow: 0 14px 30px rgba(248,181,45,0.35);
       font-weight: 600;
     }
     .primary-btn:hover {
       transform: translateY(-1px);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.95);
-      background: linear-gradient(135deg, #ffe9a8, #e0b960);
+      box-shadow: 0 18px 40px rgba(248,181,45,0.55);
+      background: linear-gradient(135deg,#facc15,#fb923c);
     }
     .ghost-btn {
-      background: transparent;
-      border: 1px solid #4b5563;
-      color: #e5e7eb;
+      background: #f9fafb;
+      border: 1px solid #cbd5f5;
+      color: var(--text-main);
       font-size: 0.85rem;
       padding-inline: 14px;
     }
     .ghost-btn:hover {
-      border-color: #9ca3af;
-      background: rgba(15,23,42,0.8);
+      border-color: #94a3b8;
+      background: #e5edff;
     }
     .step-hint {
       font-size: 0.78rem;
@@ -334,19 +341,19 @@
 
     /* Summary side card */
     .summary-card {
-      background: radial-gradient(circle at top left, #1f2937 0, #020617 55%, #000 100%);
+      background: linear-gradient(145deg,#ffffff,#fff7ed);
     }
     .summary-card h3 {
       font-size: 0.98rem;
       margin-bottom: 8px;
-      color: var(--gold-soft);
+      color: #9a3412;
     }
     .summary-section {
       font-size: 0.8rem;
-      color: #e5e7eb;
+      color: var(--text-main);
       margin-bottom: 10px;
       padding-bottom: 8px;
-      border-bottom: 1px dashed rgba(75,85,99,0.6);
+      border-bottom: 1px dashed rgba(148,163,184,0.6);
     }
     .summary-section:last-of-type {
       border-bottom: none;
@@ -356,7 +363,7 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-size: 0.7rem;
-      color: #9ca3af;
+      color: var(--text-muted);
       margin-bottom: 2px;
     }
     .summary-value {
@@ -369,16 +376,16 @@
     }
     .summary-list li {
       font-size: 0.8rem;
-      color: #e5e7eb;
+      color: var(--text-main);
       line-height: 1.4;
     }
 
     /* Info sections below */
     .info-block {
       padding: 32px 0 8px;
-      border-top: 1px solid rgba(31,41,55,0.9);
-      border-bottom: 1px solid rgba(31,41,55,0.7);
-      background: radial-gradient(circle at top center, rgba(217,178,87,0.04), transparent 60%);
+      border-top: 1px solid rgba(148,163,184,0.6);
+      border-bottom: 1px solid rgba(148,163,184,0.4);
+      background: radial-gradient(circle at top center,#fffbeb 0,transparent 60%);
     }
     .info-inner {
       max-width: 880px;
@@ -386,9 +393,9 @@
       padding: 0 16px;
     }
     .info-heading {
-      font-size: 1rem;
+      font-size: 0.9rem;
       margin-bottom: 8px;
-      color: var(--gold-soft);
+      color: #f97316;
       text-transform: uppercase;
       letter-spacing: 0.18em;
       font-weight: 500;
@@ -396,6 +403,7 @@
     .info-title {
       font-size: 1.4rem;
       margin-bottom: 10px;
+      color: var(--text-main);
     }
     .info-text {
       font-size: 0.92rem;
@@ -411,24 +419,24 @@
     }
     .info-card {
       border-radius: 16px;
-      border: 1px solid rgba(148,163,184,0.3);
-      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(226,232,240,0.9);
+      background: #ffffff;
       padding: 14px 14px 12px;
       font-size: 0.86rem;
-      color: #e5e7eb;
+      color: var(--text-main);
       line-height: 1.5;
     }
     .info-card strong {
-      color: var(--gold-soft);
+      color: #b45309;
       font-weight: 600;
     }
 
     /* Footer */
     .site-footer {
-      border-top: 1px solid #111827;
-      background: #020617;
+      border-top: 1px solid #e2e8f0;
+      background: #ffffff;
       padding: 14px 0;
-      color: #6b7280;
+      color: var(--text-muted);
       font-size: 0.78rem;
     }
     .footer-inner {
@@ -442,11 +450,11 @@
       .wizard-shell {
         grid-template-columns: minmax(0,1fr);
       }
-      .hero-title { font-size: 1.7rem; }
+      .hero-title { font-size: 1.8rem; }
     }
     @media (max-width: 640px) {
       .nav { display: none; }
-      .hero { padding-top: 32px; }
+      .hero { padding-top: 24px; }
     }
   </style>
 </head>
@@ -469,25 +477,25 @@
         <div class="container">
           <div class="hero-header">
             <div class="hero-kicker">event gift registry</div>
-            <h1 class="hero-title">Create a curated gift list for your next event</h1>
+            <h1 class="hero-title">A beautiful gift list for every celebration</h1>
             <p class="hero-sub">
-              Share what you actually want, and we’ll turn it into a clean, shareable gift‑registry page with a QR code your guests can scan in seconds.
+              GiftLoop turns your wishlist into a premium gift‑registry page and QR code that you can share with guests for weddings, baby showers, birthdays, housewarmings and more.
             </p>
 
             <div class="hero-benefits">
-              GiftLoop collects your desired gift list, assigns clear prices and manages payments so every guest can pick something you’ll genuinely use and love. [web:9][web:10]
+              You tell us the gifts you actually want, and we send a curated list to your guests so they can choose something meaningful without worrying about duplicate gifts or random items you will never use.
               <div class="benefit-points">
                 <div class="benefit-pill">
                   <span class="benefit-dot"></span>
-                  <span>No more duplicate gifts or awkward returns.</span>
+                  <span>We collect your desired gifts and present them in a simple, mobile‑friendly list.</span>
                 </div>
                 <div class="benefit-pill">
                   <span class="benefit-dot"></span>
-                  <span>Guests see a single, organised list that updates in real‑time as items are taken.</span>
+                  <span>Guests see what has already been taken, which naturally avoids repeat gifting and awkward returns.</span>
                 </div>
                 <div class="benefit-pill">
                   <span class="benefit-dot"></span>
-                  <span>You choose the wishlist, we handle pricing, payments and coordination end‑to‑end.</span>
+                  <span>You keep the joy of surprise while still guiding friends and family towards things you genuinely need.</span>
                 </div>
               </div>
             </div>
@@ -515,15 +523,15 @@
               <div class="step" id="step-1">
                 <h2 class="step-title">Tell us about your event</h2>
                 <p class="step-desc">
-                  We use these details to personalise your registry page so guests instantly understand who they’re gifting for, where the celebration is, and how big the guest list is.
+                  These details help us personalise your registry page so guests can quickly see who they’re celebrating, where the event is and how big the gathering will be.
                 </p>
                 <div class="field-grid">
                   <div class="field">
-                    abel>Organiser / host name</label>
-                    <input id="hostName" type="text" placeholder="e.g. Riya Sharma" />
+                    <label for="hostName">Organiser / host name</label>
+                    <input id="hostName" type="text" placeholder="e.g. Riya &amp; Arjun" />
                   </div>
                   <div class="field">
-                    abel>Event type</label>
+                    <label for="eventType">Event type</label>
                     <select id="eventType">
                       <option value="">Select type</option>
                       <option>Wedding</option>
@@ -536,23 +544,23 @@
                     </select>
                   </div>
                   <div class="field">
-                    abel>Event date</label>
+                    <label for="eventDate">Event date</label>
                     <input id="eventDate" type="date" />
                   </div>
                   <div class="field">
-                    abel>Expected number of guests</label>
-                    <input id="guestCount" type="number" min="1" placeholder="e.g. 80" />
+                    <label for="guestCount">Expected number of guests</label>
+                    <input id="guestCount" type="number" min="1" placeholder="e.g. 120" />
                   </div>
                   <div class="field">
-                    abel>Venue name</label>
+                    <label for="venueName">Venue name</label>
                     <input id="venueName" type="text" placeholder="e.g. Golden Orchid Banquets" />
                   </div>
                   <div class="field">
-                    abel>City</label>
+                    <label for="city">City</label>
                     <input id="city" type="text" placeholder="e.g. Bengaluru" />
                   </div>
                   <div class="field">
-                    abel>State</label>
+                    <label for="state">State</label>
                     <input id="state" type="text" placeholder="e.g. Karnataka" />
                   </div>
                 </div>
@@ -562,45 +570,49 @@
               <div class="step" id="step-2" style="display:none;">
                 <h2 class="step-title">Build your wish list</h2>
                 <p class="step-desc">
-                  Add everything you’d be happy to receive. Once you submit, our team reviews each item, assigns a final price, and makes sure guests can clearly see what’s already taken so gifts don’t repeat. [web:9][web:12]
+                  Add the gifts you’d be truly happy to receive – from appliances and decor to experiences, vouchers or contribution‑based gifts. We’ll review your list, set final prices and make sure each item is clearly visible to guests.
                 </p>
 
                 <div class="wishlist-wrap">
                   <div class="wishlist-input-row">
-                    <input id="wishlistInput" type="text" placeholder="e.g. Air fryer, perfume set, spa voucher, mixer, cash gift..." />
+                    <input id="wishlistInput" type="text" placeholder="e.g. Dinner set, mixer, spa voucher, stroller, cash gift..." />
                     <button type="button" class="pill-btn" id="addWishlistItem">+ Add</button>
                   </div>
                   <div id="wishlistChips" class="wishlist-list"></div>
                 </div>
+
+                <p class="step-desc" style="margin-top: 8px;">
+                  When your registry goes live, guests will only see items that are still available. Once someone picks and pays for a gift, it’s marked as taken so the same thing doesn’t appear again for others.
+                </p>
               </div>
 
               <!-- Step 3 -->
               <div class="step" id="step-3" style="display:none;">
                 <h2 class="step-title">How can we reach you?</h2>
                 <p class="step-desc">
-                  After reviewing your list and setting prices, we’ll send you a unique gift‑registry link and QR code that you can share on invites, WhatsApp groups or printed cards.
+                  After we review your list, we’ll send you a unique gift‑registry link and QR code that you can add to invitations, WhatsApp groups or printed cards.
                 </p>
                 <div class="field-grid">
                   <div class="field">
-                    abel>Primary contact name</label>
+                    <label for="contactName">Primary contact name</label>
                     <input id="contactName" type="text" placeholder="e.g. Riya Sharma" />
                   </div>
                   <div class="field">
-                    abel>WhatsApp number</label>
+                    <label for="contactPhone">WhatsApp number</label>
                     <input id="contactPhone" type="tel" placeholder="10‑digit Indian number" />
                   </div>
                   <div class="field">
-                    abel>Email address</label>
+                    <label for="contactEmail">Email address</label>
                     <input id="contactEmail" type="email" placeholder="e.g. you@example.com" />
                   </div>
                   <div class="field">
-                    abel>Preferred contact time</label>
+                    <label for="contactTime">Preferred contact time</label>
                     <input id="contactTime" type="text" placeholder="e.g. Evenings after 6 PM" />
                   </div>
                 </div>
                 <div class="field" style="margin-top:8px;">
-                  abel>Anything else we should know?</label>
-                  <textarea id="extraNotes" placeholder="Special requests, budget hints, brands you love or want to avoid, any gifts you don’t want repeated..."></textarea>
+                  <label for="extraNotes">Anything else we should know?</label>
+                  <textarea id="extraNotes" placeholder="Special requests, budgets, favourite brands, or gifts you’d like guests to avoid..."></textarea>
                 </div>
               </div>
 
@@ -634,10 +646,10 @@
               <div class="summary-section">
                 <div class="summary-label">Wishlist items</div>
                 <ul id="sumWishlist" class="summary-list">
-                  >No items added yet.</li>
+                  <li>No items added yet.</li>
                 </ul>
-                <div class="summary-value" style="margin-top:4px; font-size:0.75rem; color:#9ca3af;">
-                  After you submit, our team will assign prices, mark items as “taken” as guests pay, and generate your QR so every gift stays unique. [web:9][web:10][web:12]
+                <div class="summary-value" style="margin-top:4px; font-size:0.75rem; color:#64748b;">
+                  After you submit, our team will assign prices, mark gifts as “taken” when guests choose them, and generate your shareable QR to keep everything organised and repeat‑free.
                 </div>
               </div>
 
@@ -658,21 +670,21 @@
           <div class="info-heading">how giftloop works</div>
           <h2 class="info-title">From wishlist to QR in three simple steps</h2>
           <p class="info-text">
-            Instead of everyone guessing what to buy, GiftLoop gives your guests a single, live list of gifts that you have already approved. It feels like a modern wedding or event registry, but tailored for Indian celebrations and everyday family functions. [web:10][web:7]
+            Instead of guessing what to buy, your guests receive one clear, elegant link with all the gifts you’ve pre‑selected. It works beautifully for weddings, baby showers, birthdays and any celebration where many people want to gift you something special.
           </p>
 
           <div class="info-columns">
             <div class="info-card">
-              <strong>1. You tell us what you want</strong><br />
-              Add as many items as you like – from home appliances and personal care to experiences, vouchers or even contribution‑based gifts. You stay fully in control of what appears on your registry.
+              <strong>1. You create your list</strong><br />
+              Use the form above to share details about your event and build your wishlist. Add as many items as you like – you’re always in control of what appears on your registry.
             </div>
             <div class="info-card">
-              <strong>2. We price, polish and publish</strong><br />
-              Our team reviews your wishlist, assigns fair prices, groups similar items and makes the list easy to browse for guests of all ages. Then we send you a beautiful link and QR for your event.
+              <strong>2. We curate &amp; price it</strong><br />
+              Our team reviews your wishlist, assigns clear prices, groups similar gifts and prepares a polished registry page along with a QR code tailored to your celebration.
             </div>
             <div class="info-card">
-              <strong>3. Guests gift without confusion</strong><br />
-              Guests scan the QR, pick any free item within their budget and pay online. Once an item is taken, it disappears or shows as “already gifted”, which naturally avoids unnecessary repetitions and last‑minute returns. [web:9][web:12]
+              <strong>3. Guests pick &amp; gift easily</strong><br />
+              You share the link or QR with friends and family. They choose any available gift within their budget, and once it’s selected, it’s marked as taken so others don’t buy the same thing again.
             </div>
           </div>
         </div>
@@ -682,22 +694,22 @@
       <section id="about" class="info-block" style="border-top:none;">
         <div class="info-inner">
           <div class="info-heading">why hosts love this</div>
-          <h2 class="info-title">Fewer duplicate gifts, more meaningful memories</h2>
+          <h2 class="info-title">Fewer duplicate gifts, more thoughtful memories</h2>
           <p class="info-text">
-            Traditional gifting often leads to five mixers, three dinner sets and a cupboard full of things you never use. A personal gift registry fixes that by giving guests a clear list of what you actually need, and updating it automatically as gifts are claimed. [web:10][web:9]
+            Traditional gifting often leads to multiple mixers, repeated dinner sets and decor you don’t have space for. A gift registry solves this by giving guests a guided list of things you truly need, while still allowing them to choose freely.
           </p>
           <div class="info-columns">
             <div class="info-card">
-              <strong>Reduce waste & repetition</strong><br />
-              Because your registry updates in real‑time, guests naturally spread out across the list. You receive a variety of useful gifts instead of piles of the same thing. [web:9][web:12]
+              <strong>Perfect for big guest lists</strong><br />
+              When you have many invitees, managing gifts manually becomes chaotic. GiftLoop keeps everything in one place so each guest sees a clear, updated picture of what’s still available.
             </div>
             <div class="info-card">
-              <strong>Easier for your guests</strong><br />
-              Guests no longer have to call your family to ask “what should we bring?”. They can simply scan, choose a price point that feels comfortable and check out in a few taps. [web:9]
+              <strong>Comfortable for every budget</strong><br />
+              Because each gift has a visible price, guests can quietly pick something within their comfort zone – whether it’s a small gesture or a larger group gift.
             </div>
             <div class="info-card">
-              <strong>Perfect for Indian events</strong><br />
-              From weddings and house‑warmings to birthdays and baby showers, GiftLoop keeps the joy and surprise of gifting, while quietly coordinating everything in the background.
+              <strong>Made for Indian celebrations</strong><br />
+              From traditional weddings and griha pravesh to intimate baby showers and birthdays, the experience feels familiar and respectful while adding just the right amount of modern convenience.
             </div>
           </div>
         </div>
@@ -707,12 +719,12 @@
       <section id="contact" class="info-block" style="border-bottom:none; padding-bottom:24px;">
         <div class="info-inner">
           <div class="info-heading">get in touch</div>
-          <h2 class="info-title">Built in India, for all your celebrations</h2>
+          <h2 class="info-title">Built in India, for your favourite people</h2>
           <p class="info-text">
-            This is an early prototype of GiftLoop. When the full version is live, your submitted details will reach our backend so we can review your wishlist, finalise prices and send you your event‑ready QR and payment links.
+            This is an early prototype of GiftLoop. In the full version, your submitted details will be sent to our backend so we can review your wishlist, finalise prices and send you your event‑ready registry link and QR.
           </p>
           <p class="info-text">
-            For partnerships, feedback or early access, you can add a note in the form above and we’ll get back to you once we open up the first batch of events.
+            For partnerships, feedback or early access, simply leave a note in the form, and we’ll reach out as soon as we start onboarding our first set of events.
           </p>
         </div>
       </section>
@@ -721,7 +733,7 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <p>© <span id="year"></span> GiftLoop – prototype gift registry built in India.</p>
-        <p>Your data stays private and is only used to create and manage your event gift‑registry experience.</p>
+        <p>Your details are used only to prepare and manage your event gift‑registry experience.</p>
       </div>
     </footer>
   </div>
@@ -785,7 +797,7 @@
       sumWishlist.innerHTML = '';
 
       if (!wishlist.length) {
-        sumWishlist.innerHTML = '>No items added yet.</li>';
+        sumWishlist.innerHTML = '<li>No items added yet.</li>';
         return;
       }
       wishlist.forEach((item, idx) => {
