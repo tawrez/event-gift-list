@@ -4,502 +4,496 @@
   <meta charset="UTF-8" />
   <title>GiftLoop – Event Gift Registry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; scroll-behavior: smooth; }
-
     :root {
-      --bg-page: #f9fafb;
-      --bg-soft: #ffffff;
-      --bg-soft-alt: #f3f4f6;
-      --border-soft: #e5e7eb;
-      --text-main: #0f172a;
-      --text-muted: #6b7280;
-      --black: #020617;
-      --gold-1: #facc15;
-      --gold-2: #f59e0b;
-      --gold-3: #eab308;
+      --gold: #C9A84C;
+      --gold-light: #F5EDD6;
+      --gold-dark: #8B6914;
+      --cream: #FDFAF4;
+      --dark: #1A1612;
+      --dark2: #2E2820;
+      --muted: #7A7060;
+      --border: rgba(201,168,76,0.2);
+      --border-strong: rgba(201,168,76,0.4);
+      --radius: 12px;
+      --radius-lg: 20px;
     }
 
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; scroll-behavior:smooth; }
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text-main);
-      background:
-        radial-gradient(circle at top left, #e5e7eb 0, #f9fafb 40%, #fefce8 100%);
+      font-family:'DM Sans',sans-serif;
+      background:var(--cream);
+      color:var(--dark);
     }
 
-    .page {
-      min-height: 100vh;
-      color: var(--text-main);
-    }
+    .page { min-height:100vh; }
 
     .container {
-      width: 100%;
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 16px 40px;
+      width:100%;
+      max-width:1080px;
+      margin:0 auto;
+      padding:0 16px 40px;
     }
 
     /* Header / Nav */
     .site-header {
-      border-bottom: 1px solid rgba(148,163,184,0.45);
-      backdrop-filter: blur(16px);
-      background: rgba(255,255,255,0.95);
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(253,250,244,0.95);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);
     }
     .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 76px; /* taller so logo sits a bit lower */
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      height:68px;
+      padding:0 4px;
     }
     .logo {
-      font-weight: 800;
-      font-size: 1.4rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      background: linear-gradient(120deg, var(--gold-1), var(--gold-2), var(--black));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      font-family:'DM Serif Display',serif;
+      font-size:22px;
+      letter-spacing:0.22em;
+      text-transform:uppercase;
+      background:linear-gradient(120deg,#000,var(--gold),var(--gold-dark));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
     }
-    .nav {
-      display: flex;
-      align-items: center;
-    }
+    .nav { display:flex; align-items:center; gap:24px; }
     .nav a {
-      margin-left: 18px;
-      font-size: 0.9rem;
-      text-decoration: none;
-      color: var(--text-muted);
-      position: relative;
-      padding-bottom: 3px;
+      text-decoration:none;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:500;
+      position:relative;
+      padding-bottom:3px;
     }
     .nav a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(135deg, var(--gold-1), var(--black));
-      transition: width 0.2s ease-out;
-      border-radius: 999px;
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:0;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#000,var(--gold));
+      transition:width .2s;
     }
-    .nav a:hover { color: var(--text-main); }
-    .nav a:hover::after { width: 100%; }
+    .nav a:hover { color:var(--dark); }
+    .nav a:hover::after { width:100%; }
 
     /* Hero */
     .hero {
-      padding: 32px 0 28px;
+      padding:32px 0 28px;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%);
     }
     .hero-header {
-      text-align: left;
-      margin-bottom: 24px;
-      max-width: 720px;
+      text-align:left;
+      margin:0 auto 24px;
+      max-width:720px;
     }
     .hero-kicker {
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold-2);
-      margin-bottom: 8px;
+      font-size:11px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:var(--gold-dark);
+      margin-bottom:10px;
+      font-weight:600;
     }
     .hero-title {
-      font-size: 2rem;
-      margin-bottom: 10px;
-      color: var(--black);
+      font-family:'DM Serif Display',serif;
+      font-size:clamp(32px,5.2vw,44px);
+      line-height:1.1;
+      letter-spacing:-0.5px;
+      color:var(--dark);
+      margin-bottom:10px;
     }
     .hero-sub {
-      max-width: 620px;
-      font-size: 0.96rem;
-      color: var(--text-muted);
-      line-height: 1.6;
+      max-width:560px;
+      font-size:15px;
+      color:var(--muted);
+      line-height:1.7;
     }
 
     .hero-benefits {
-      margin-top: 16px;
-      max-width: 680px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.7;
+      margin-top:16px;
+      max-width:640px;
+      font-size:14px;
+      color:var(--muted);
+      line-height:1.7;
     }
     .benefit-points {
-      margin-top: 10px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-      font-size: 0.86rem;
-      color: var(--text-main);
+      margin-top:10px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr);
+      gap:8px;
+      font-size:13px;
+      color:var(--dark);
     }
     .benefit-pill {
-      border-radius: 14px;
-      border: 1px solid rgba(15,23,42,0.06);
-      background:
-        linear-gradient(135deg, #ffffff, #fef9c3);
-      padding: 8px 10px;
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:#fff;
+      padding:8px 10px;
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
     }
     .benefit-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--gold-1), var(--black));
-      margin-top: 4px;
-      flex-shrink: 0;
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#000,var(--gold));
+      margin-top:4px;
+      flex-shrink:0;
     }
 
+    /* Shell */
     .wizard-shell {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 20px;
-      align-items: flex-start;
-      margin-top: 24px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr);
+      gap:18px;
+      margin-top:26px;
     }
 
     .card {
-      background: var(--bg-soft);
-      border-radius: 20px;
-      border: 1px solid var(--border-soft);
-      padding: 20px 16px 18px;
-      box-shadow:
-        0 18px 40px rgba(15,23,42,0.06),
-        0 1px 2px rgba(15,23,42,0.04);
+      background:#fff;
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      padding:18px 16px 18px;
+      box-shadow:0 14px 32px rgba(26,22,18,0.06);
     }
 
     /* Steps indicator */
     .steps-indicator {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 16px;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 4px;
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:14px;
+      overflow-x:auto;
+      padding-bottom:4px;
     }
     .step-chip {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid #e5e7eb;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      background: #f9fafb;
-      white-space: nowrap;
+      flex:1;
+      min-width:0;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      font-size:11px;
+      color:var(--muted);
+      background:var(--cream);
+      white-space:nowrap;
     }
     .step-chip.active {
-      border-color: rgba(0,0,0,0.7);
-      background: linear-gradient(135deg,#111827,#020617);
-      color: #fefce8;
+      border-color:#000;
+      background:#000;
+      color:var(--gold-light);
     }
     .step-no {
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      background: #e5e7eb;
-      color: var(--text-main);
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:11px;
+      background:var(--gold-light);
+      color:var(--dark);
     }
     .step-chip.active .step-no {
-      background: linear-gradient(135deg, var(--gold-1), var(--gold-2));
-      color: #111827;
+      background:linear-gradient(135deg,#000,var(--gold));
+      color:var(--cream);
     }
 
     /* Form sections */
     .step-title {
-      font-size: 1.05rem;
-      margin-bottom: 6px;
-      color: var(--black);
+      font-size:15px;
+      font-weight:600;
+      margin-bottom:6px;
+      color:var(--dark);
     }
     .step-desc {
-      font-size: 0.84rem;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-      line-height: 1.5;
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:14px;
+      line-height:1.5;
     }
 
     .field-grid {
-      display: grid;
-      grid-template-columns: minmax(0,1fr);
-      gap: 10px;
-      margin-bottom: 10px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr);
+      gap:10px;
+      margin-bottom:8px;
     }
-    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field { display:flex; flex-direction:column; gap:4px; }
     label {
-      font-size: 0.78rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-muted);
+      font-size:11px;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      color:var(--muted);
+      font-weight:600;
     }
     input, select, textarea {
-      background: #ffffff;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      color: var(--text-main);
-      padding: 9px 10px;
-      font-size: 0.95rem;
-      outline: none;
-      width: 100%;
+      background:#fff;
+      border-radius:10px;
+      border:1px solid var(--border-strong);
+      color:var(--dark);
+      padding:9px 10px;
+      font-size:14px;
+      outline:none;
+      width:100%;
+      font-family:'DM Sans',sans-serif;
     }
     input::placeholder, textarea::placeholder {
-      color: #9ca3af;
+      color:#b3a999;
     }
     input:focus, select:focus, textarea:focus {
-      border-color: var(--black);
-      box-shadow: 0 0 0 1px rgba(15,23,42,0.6);
+      border-color:var(--gold);
+      box-shadow:0 0 0 1px rgba(201,168,76,0.35);
     }
-    textarea { resize: vertical; min-height: 80px; }
+    textarea { resize:vertical; min-height:80px; }
 
     /* Wishlist */
-    .wishlist-wrap { margin-top: 4px; }
+    .wishlist-wrap { margin-top:4px; }
     .wishlist-input-row {
-      display: flex;
-      flex-direction: row;
-      gap: 8px;
-      margin-bottom: 10px;
+      display:flex;
+      flex-direction:row;
+      gap:8px;
+      margin-bottom:8px;
     }
-    .wishlist-input-row input {
-      flex: 1;
-    }
+    .wishlist-input-row input { flex:1; }
     .pill-btn {
-      border-radius: 999px;
-      border: 1px solid var(--black);
-      background: linear-gradient(135deg,#111827,#020617);
-      color: #fefce8;
-      padding: 9px 14px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      white-space: nowrap;
+      border-radius:999px;
+      border:1px solid #000;
+      background:#000;
+      color:var(--gold-light);
+      padding:9px 14px;
+      font-size:12px;
+      cursor:pointer;
+      white-space:nowrap;
     }
     .pill-btn:hover {
-      background: linear-gradient(135deg,#020617,#000000);
+      background:#111;
     }
     .wishlist-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:4px;
     }
     .chip {
-      border-radius: 999px;
-      border: 1px solid #e5e7eb;
-      padding: 5px 10px;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #f9fafb;
-      color: var(--black);
+      border-radius:999px;
+      border:1px solid var(--border);
+      padding:4px 9px;
+      font-size:12px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      background:var(--cream);
+      color:var(--dark);
     }
     .chip span.remove {
-      cursor: pointer;
-      color: #b91c1c;
-      font-size: 0.8rem;
+      cursor:pointer;
+      color:#b91c1c;
+      font-size:13px;
     }
 
-    /* Buttons + footer of card */
+    /* Buttons */
     .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 16px;
-      gap: 10px;
-      flex-wrap: wrap;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:16px;
+      gap:10px;
+      flex-wrap:wrap;
     }
     .primary-btn, .ghost-btn {
-      border-radius: 999px;
-      padding: 11px 18px;
-      font-size: 0.9rem;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: transform 0.1s, box-shadow 0.1s, background 0.1s, color 0.1s, border-color 0.1s;
-      min-width: 120px;
+      border-radius:999px;
+      padding:11px 16px;
+      font-size:13px;
+      border:none;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      min-width:120px;
+      font-weight:500;
     }
     .primary-btn {
-      background: linear-gradient(135deg, var(--gold-1), var(--gold-2));
-      color: #111827;
-      box-shadow: 0 14px 30px rgba(0,0,0,0.25);
-      font-weight: 600;
+      background:linear-gradient(135deg,#000,var(--gold-dark));
+      color:var(--gold-light);
+      box-shadow:0 10px 26px rgba(26,22,18,0.35);
     }
     .primary-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.4);
-      background: linear-gradient(135deg,#fde047,#f59e0b);
+      background:#000;
     }
     .ghost-btn {
-      background: #f9fafb;
-      border: 1px solid #cbd5e1;
-      color: var(--black);
-      font-size: 0.85rem;
-      padding-inline: 16px;
+      background:var(--cream);
+      border:1px solid var(--border-strong);
+      color:var(--dark);
     }
     .ghost-btn:hover {
-      border-color: #94a3b8;
-      background: #e5e7eb;
+      background:var(--gold-light);
     }
     .step-hint {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      text-align: right;
+      font-size:11px;
+      color:var(--muted);
+      text-align:right;
     }
 
-    /* Summary side card */
+    /* Summary */
     .summary-card {
-      background: linear-gradient(135deg,#ffffff,#f3f4f6);
+      background:#fff;
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      padding:16px 14px 16px;
     }
     .summary-card h3 {
-      font-size: 0.96rem;
-      margin-bottom: 8px;
-      color: var(--black);
+      font-size:14px;
+      font-weight:600;
+      color:var(--dark2);
+      margin-bottom:8px;
     }
     .summary-section {
-      font-size: 0.8rem;
-      color: var(--text-main);
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px dashed rgba(148,163,184,0.7);
+      font-size:12px;
+      color:var(--dark);
+      margin-bottom:8px;
+      padding-bottom:8px;
+      border-bottom:1px dashed rgba(122,112,96,0.35);
     }
     .summary-section:last-of-type {
-      border-bottom: none;
-      padding-bottom: 0;
+      border-bottom:none;
+      padding-bottom:0;
     }
     .summary-label {
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-bottom: 2px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-size:10px;
+      color:var(--muted);
+      margin-bottom:2px;
+      font-weight:600;
     }
-    .summary-value {
-      margin-top: 1px;
-    }
+    .summary-value { margin-top:1px; }
     .summary-list {
-      margin-top: 4px;
-      list-style: none;
-      padding-left: 0;
+      margin-top:4px;
+      list-style:none;
+      padding-left:0;
     }
     .summary-list li {
-      font-size: 0.8rem;
-      color: var(--text-main);
-      line-height: 1.4;
+      font-size:12px;
+      color:var(--dark);
+      line-height:1.4;
     }
 
-    /* Info sections below */
+    /* Info sections */
     .info-block {
-      padding: 28px 0 10px;
-      border-top: 1px solid rgba(148,163,184,0.5);
-      border-bottom: 1px solid rgba(148,163,184,0.35);
-      background: #f9fafb;
+      padding:28px 0 10px;
+      border-top:1px solid rgba(201,168,76,0.25);
+      border-bottom:1px solid rgba(201,168,76,0.18);
+      background:var(--cream);
     }
     .info-inner {
-      max-width: 880px;
-      margin: 0 auto;
-      padding: 0 16px;
+      max-width:880px;
+      margin:0 auto;
+      padding:0 16px;
     }
     .info-heading {
-      font-size: 0.86rem;
-      margin-bottom: 6px;
-      color: var(--gold-2);
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-weight: 500;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:var(--gold-dark);
+      margin-bottom:8px;
     }
     .info-title {
-      font-size: 1.35rem;
-      margin-bottom: 8px;
-      color: var(--black);
+      font-family:'DM Serif Display',serif;
+      font-size:24px;
+      line-height:1.15;
+      letter-spacing:-0.4px;
+      color:var(--dark);
+      margin-bottom:8px;
+      max-width:460px;
     }
     .info-text {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 12px;
+      font-size:14px;
+      color:var(--muted);
+      line-height:1.7;
+      margin-bottom:12px;
+      max-width:520px;
     }
     .info-columns {
-      display: grid;
-      grid-template-columns: minmax(0,1fr);
-      gap: 16px;
-      margin-top: 10px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr);
+      gap:14px;
+      margin-top:10px;
     }
     .info-card {
-      border-radius: 14px;
-      border: 1px solid rgba(226,232,240,0.9);
-      background: var(--bg-soft);
-      padding: 12px 12px 11px;
-      font-size: 0.86rem;
-      color: var(--text-main);
-      line-height: 1.5;
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      background:#fff;
+      padding:12px 12px 11px;
+      font-size:13px;
+      color:var(--dark);
+      line-height:1.55;
     }
     .info-card strong {
-      color: var(--black);
-      font-weight: 600;
+      color:var(--dark2);
+      font-weight:600;
     }
 
     /* Footer */
     .site-footer {
-      border-top: 1px solid #e5e7eb;
-      background: #ffffff;
-      padding: 14px 0;
-      color: var(--text-muted);
-      font-size: 0.78rem;
+      border-top:1px solid var(--border);
+      background:var(--dark);
+      padding:18px 0;
+      color:rgba(253,250,244,0.7);
+      font-size:11px;
     }
     .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
     }
 
-    /* Larger screens */
-    @media (min-width: 768px) {
+    @media(min-width:768px) {
       .wizard-shell {
-        grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
-        gap: 28px;
+        grid-template-columns:minmax(0,3fr) minmax(0,2.2fr);
+        gap:24px;
       }
       .field-grid {
-        grid-template-columns: repeat(2, minmax(0,1fr));
-      }
-      .benefit-points {
-        grid-template-columns: repeat(3, minmax(0, 0.3fr));
+        grid-template-columns:repeat(2,minmax(0,1fr));
       }
       .info-columns {
-        grid-template-columns: repeat(3, minmax(0,1fr));
+        grid-template-columns:repeat(3,minmax(0,1fr));
       }
-      .card {
-        padding: 22px 20px 18px;
+      .card, .summary-card {
+        padding:20px 18px 18px;
       }
     }
 
-    @media (max-width: 640px) {
-      .nav { display: none; }
-      .hero { padding-top: 24px; }
+    @media(max-width:640px) {
+      .nav { display:none; }
+      .hero { padding-top:24px; }
       .card-footer {
-        flex-direction: column-reverse;
-        align-items: stretch;
+        flex-direction:column-reverse;
+        align-items:stretch;
       }
       .primary-btn, .ghost-btn {
-        width: 100%;
+        width:100%;
       }
-      .step-hint {
-        text-align: center;
-      }
-      .wishlist-input-row {
-        flex-direction: column;
-      }
+      .step-hint { text-align:center; }
+      .wishlist-input-row { flex-direction:column; }
     }
   </style>
 </head>
@@ -521,33 +515,32 @@
       <section id="create" class="hero">
         <div class="container">
           <div class="hero-header">
-            <div class="hero-kicker">event gift registry</div>
-            <h1 class="hero-title">A premium gift list for your next celebration</h1>
+            <div class="hero-kicker">EVENT GIFT REGISTRY</div>
+            <h1 class="hero-title">One shared gift list for your entire event.</h1>
             <p class="hero-sub">
-              Share what you actually want, and GiftLoop turns it into a clean, gold‑accented gift‑registry page and QR code that looks great on both phones and printed wedding or baby‑shower invites.
+              GiftLoop collects your wishlist, turns it into a gold‑themed gift‑registry page and QR code, and sends it to your guests so they can choose gifts you’ll truly use.
             </p>
-
             <div class="hero-benefits">
-              We collect your desired gift list, set clear prices and send a single link to your guests so they can pick a meaningful gift without worrying about duplicate items or last‑minute confusion.
+              No more repeated home appliances, random showpieces or last‑minute panic at the mall — just one clean list that keeps every gift unique.
               <div class="benefit-points">
                 <div class="benefit-pill">
                   <span class="benefit-dot"></span>
-                  <span>We organise your wishlist into a simple, mobile‑friendly registry page.</span>
+                  <span>You share what you actually want, we publish a beautiful registry page for your event.</span>
                 </div>
                 <div class="benefit-pill">
                   <span class="benefit-dot"></span>
-                  <span>Guests see what’s already taken, which naturally avoids repeat gifting and awkward returns.</span>
+                  <span>Guests scan a QR or open a link, pick any available gift within their budget and pay online.</span>
                 </div>
                 <div class="benefit-pill">
                   <span class="benefit-dot"></span>
-                  <span>Perfect for weddings, baby showers, birthdays and housewarmings where many people want to gift you something special.</span>
+                  <span>As each gift is taken, we mark it off so others don’t buy the same thing again.</span>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="wizard-shell">
-            <!-- Left: multi-step form -->
+            <!-- Left: form -->
             <div class="card">
               <div class="steps-indicator">
                 <div class="step-chip active" data-step-chip="1">
@@ -568,7 +561,7 @@
               <div class="step" id="step-1">
                 <h2 class="step-title">Tell us about your event</h2>
                 <p class="step-desc">
-                  These details help us personalise your registry page so guests instantly know who they’re celebrating and where the event is happening.
+                  We use these details to personalise your registry page so guests immediately see who they’re gifting for and where the celebration is happening.
                 </p>
                 <div class="field-grid">
                   <div class="field">
@@ -578,7 +571,7 @@
                   <div class="field">
                     <label for="eventType">Event type</label>
                     <select id="eventType">
-                      <option value="">Select type</option>
+                      <option value="">Select type…</option>
                       <option>Wedding</option>
                       <option>Birthday party</option>
                       <option>Baby shower</option>
@@ -593,12 +586,12 @@
                     <input id="eventDate" type="date" />
                   </div>
                   <div class="field">
-                    <label for="guestCount">Expected number of guests</label>
-                    <input id="guestCount" type="number" min="1" placeholder="e.g. 120" />
+                    <label for="guestCount">Expected guests</label>
+                    <input id="guestCount" type="number" min="1" placeholder="e.g. 150" />
                   </div>
                   <div class="field">
                     <label for="venueName">Venue name</label>
-                    <input id="venueName" type="text" placeholder="e.g. Golden Orchid Banquets" />
+                    <input id="venueName" type="text" placeholder="e.g. The Leela Palace" />
                   </div>
                   <div class="field">
                     <label for="city">City</label>
@@ -615,19 +608,18 @@
               <div class="step" id="step-2" style="display:none;">
                 <h2 class="step-title">Build your wish list</h2>
                 <p class="step-desc">
-                  Add the gifts you would genuinely love to receive – from home items and decor to experiences, vouchers or contribution‑based gifts.
+                  Add every gift you’d be happy to receive — home items, appliances, decor, experiences, vouchers or contribution‑based gifts.
+                  We’ll review and set final prices before sharing it with your guests.
                 </p>
-
                 <div class="wishlist-wrap">
                   <div class="wishlist-input-row">
-                    <input id="wishlistInput" type="text" placeholder="e.g. Dinner set, stroller, mixer, spa voucher, cash gift..." />
+                    <input id="wishlistInput" type="text" placeholder="e.g. Mixer, stroller, dinner set, spa voucher, cash gift…" />
                     <button type="button" class="pill-btn" id="addWishlistItem">+ Add</button>
                   </div>
                   <div id="wishlistChips" class="wishlist-list"></div>
                 </div>
-
-                <p class="step-desc" style="margin-top: 6px;">
-                  When your registry is live, guests will only see gifts that are still available. Once someone picks and pays for a gift, it’s marked as taken so the same item doesn’t repeat.
+                <p class="step-desc" style="margin-top:6px;">
+                  Once your registry goes live, guests will only see gifts that are still available. Anything that’s already chosen will automatically be marked as “taken” to avoid repetition.
                 </p>
               </div>
 
@@ -635,7 +627,7 @@
               <div class="step" id="step-3" style="display:none;">
                 <h2 class="step-title">How can we reach you?</h2>
                 <p class="step-desc">
-                  After we review your list, we’ll send you a unique GiftLoop link and QR code to add to invitations, WhatsApp groups or printed inserts.
+                  After we review your list and set prices, we’ll send your unique GiftLoop link and QR code to these details.
                 </p>
                 <div class="field-grid">
                   <div class="field">
@@ -657,7 +649,7 @@
                 </div>
                 <div class="field" style="margin-top:8px;">
                   <label for="extraNotes">Anything else we should know?</label>
-                  <textarea id="extraNotes" placeholder="Special requests, budgets, favourite brands, or gifts you’d like guests to avoid..."></textarea>
+                  <textarea id="extraNotes" placeholder="Special requests, budgets, favourite brands, or gifts you’d like guests to avoid…"></textarea>
                 </div>
               </div>
 
@@ -670,8 +662,8 @@
               </div>
             </div>
 
-            <!-- Right: live summary -->
-            <aside class="card summary-card">
+            <!-- Right: summary -->
+            <aside class="summary-card">
               <h3>Live event summary</h3>
 
               <div class="summary-section">
@@ -693,8 +685,8 @@
                 <ul id="sumWishlist" class="summary-list">
                   <li>No items added yet.</li>
                 </ul>
-                <div class="summary-value" style="margin-top:4px; font-size:0.75rem; color:#6b7280;">
-                  Once you submit, we’ll assign prices, mark gifts as “taken” as guests choose them, and send you a QR code so every gift stays unique and organised.
+                <div class="summary-value" style="margin-top:4px; font-size:11px; color:var(--muted);">
+                  After you submit, our team will assign prices, keep track of what’s already gifted, and generate a QR &amp; link you can add to invitations or WhatsApp groups.
                 </div>
               </div>
 
@@ -712,24 +704,23 @@
       <!-- How it works -->
       <section id="how" class="info-block">
         <div class="info-inner">
-          <div class="info-heading">how giftloop works</div>
-          <h2 class="info-title">From wishlist to shareable QR</h2>
+          <div class="info-heading">HOW GIFTLOOP WORKS</div>
+          <h2 class="info-title">From wishlist to shareable QR code.</h2>
           <p class="info-text">
-            Instead of guests guessing what to buy, GiftLoop gives them one elegant link with gifts you’ve pre‑selected. It works beautifully on phones, so even relatives in family groups can scan and choose in a few taps.
+            Instead of everyone guessing what to buy, your guests see a single curated list of gifts you’ve already approved — in a simple gold and cream interface that feels right at home with a wedding or baby‑shower invite.
           </p>
-
           <div class="info-columns">
             <div class="info-card">
               <strong>1. You create your list</strong><br />
-              Use the form above to share event details and build your wishlist. Add as many items as you like – you’re always in control of what appears.
+              Tell us about your event and add the gifts you’d genuinely like to receive. You’re always in control of what appears on your registry.
             </div>
             <div class="info-card">
-              <strong>2. We curate &amp; price it</strong><br />
-              Our team reviews your wishlist, assigns clear prices, groups similar gifts and prepares a polished registry page with a gold‑accented design.
+              <strong>2. We price &amp; polish</strong><br />
+              Our team reviews your wishlist, sets clear prices, and prepares a neat registry page with a QR code and short link you can share.
             </div>
             <div class="info-card">
-              <strong>3. Guests pick &amp; gift easily</strong><br />
-              You share the link or QR. Guests choose any available gift within their budget, and once a gift is taken, it’s hidden or marked so others don’t buy the same thing again.
+              <strong>3. Guests gift with ease</strong><br />
+              Guests scan the QR, choose any free gift within their budget, pay online, and we mark that item as taken to avoid unwanted duplicates.
             </div>
           </div>
         </div>
@@ -738,38 +729,39 @@
       <!-- Why it helps -->
       <section id="about" class="info-block" style="border-top:none;">
         <div class="info-inner">
-          <div class="info-heading">why hosts love this</div>
-          <h2 class="info-title">Fewer duplicate gifts, more thoughtful memories</h2>
+          <div class="info-heading">WHY HOSTS LOVE IT</div>
+          <h2 class="info-title">Fewer repeated gifts, more thoughtful memories.</h2>
           <p class="info-text">
-            Big celebrations often end with multiple mixers, dinner sets and decor pieces you never use. GiftLoop fixes that by letting guests see a live list of gifts you actually want, updated automatically as they are claimed.
+            Big Indian celebrations can easily lead to three dinner sets, four mixers and random decor that never leaves the box.
+            GiftLoop keeps the emotional part of gifting, but quietly removes the waste and guesswork.
           </p>
           <div class="info-columns">
             <div class="info-card">
-              <strong>Perfect for big guest lists</strong><br />
-              When many people want to gift you something, a single shared registry keeps things simple and respectful for everyone.
+              <strong>Perfect for large guest lists</strong><br />
+              One common list keeps everyone aligned. Guests don’t have to call your relatives for suggestions or worry if someone already bought the same thing.
             </div>
             <div class="info-card">
               <strong>Comfortable for every budget</strong><br />
-              Each gift shows a clear amount, so guests can quietly choose something that fits what they’re comfortable spending.
+              With clear pricing on each gift, friends and family can choose a contribution that matches what they’re comfortable spending.
             </div>
             <div class="info-card">
-              <strong>Made for Indian events</strong><br />
-              From weddings and griha pravesh to baby showers and birthdays, the flow keeps the emotion and rituals of gifting, just with less clutter.
+              <strong>Made for weddings &amp; more</strong><br />
+              Works equally well for weddings, engagements, baby showers, birthdays, anniversaries and house‑warmings.
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Contact / note -->
-      <section id="contact" class="info-block" style="border-bottom:none; padding-bottom:22px;">
+      <!-- Contact -->
+      <section id="contact" class="info-block" style="border-bottom:none; padding-bottom:24px;">
         <div class="info-inner">
-          <div class="info-heading">get in touch</div>
-          <h2 class="info-title">Built in India, for your favourite people</h2>
+          <div class="info-heading">GET IN TOUCH</div>
+          <h2 class="info-title">Built in India for all your celebrations.</h2>
           <p class="info-text">
-            This is an early prototype of GiftLoop. In the full version, your submitted details will go to our backend so we can review your wishlist, finalise prices and send you your event‑ready registry link and QR.
+            This is an early prototype of GiftLoop. In the full version, your submitted details will reach our backend so we can review your wishlist, finalise prices and send you an event‑ready registry link and QR.
           </p>
           <p class="info-text">
-            For partnerships, feedback or early access, simply add a note in the form, and we’ll reach out as soon as we open up our first batch of events.
+            For partnerships, feedback or early access, just leave a note in the form above and we’ll get back to you when we open up the first batch of events.
           </p>
         </div>
       </section>
@@ -778,7 +770,7 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <p>© <span id="year"></span> GiftLoop – prototype gift registry built in India.</p>
-        <p>Your details are used only to prepare and manage your event gift‑registry experience.</p>
+        <p>Your details are only used to prepare and manage your event gift‑registry experience.</p>
       </div>
     </footer>
   </div>
@@ -806,11 +798,7 @@
         chip.classList.toggle('active', n === currentStep);
       });
       prevBtn.disabled = currentStep === 1;
-      if (currentStep === 3) {
-        nextBtn.textContent = 'Send to GiftLoop →';
-      } else {
-        nextBtn.textContent = 'Next step →';
-      }
+      nextBtn.textContent = currentStep === 3 ? 'Send to GiftLoop →' : 'Next step →';
       stepHint.textContent = `Step ${currentStep} of 3`;
     }
 
@@ -826,7 +814,7 @@
         currentStep++;
         updateStepUI();
       } else {
-        alert('In the full version, this would send your event details and wishlist to GiftLoop so we can set prices, avoid duplicate gifts and generate your shareable QR.');
+        alert('In the live version, this would send your event details and wishlist to GiftLoop so we can set prices, avoid duplicate gifts and generate your QR + link.');
       }
     });
 
