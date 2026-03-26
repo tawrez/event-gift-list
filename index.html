@@ -2,41 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>GiftLoop – Smart Event Gift Lists</title>
+  <title>GiftLoop – Event Gift Registry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* === ALL CSS INLINE SO IT JUST WORKS === */
-
-    * , *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    html, body {
-      height: 100%;
-      scroll-behavior: smooth;
-    }
+    * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; scroll-behavior: smooth; }
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      color: #0f172a;
-      background: #f3f4f6;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #111;
+      background: #0b0b0b;
+    }
+    :root {
+      --gold-soft: #f4e5b2;
+      --gold-accent: #d2a63c;
+      --bg-dark: #050509;
+      --card-dark: #111111;
+      --border-soft: #262626;
+    }
+    .page {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, #222 0, #050505 50%, #000 100%);
+      color: #f9fafb;
     }
     .container {
       width: 100%;
-      max-width: 1120px;
+      max-width: 1080px;
       margin: 0 auto;
-      padding: 0 16px;
+      padding: 0 16px 48px;
     }
 
     /* Header / Nav */
     .site-header {
+      border-bottom: 1px solid #1f2933;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(18px);
       position: sticky;
       top: 0;
-      z-index: 20;
-      background: rgba(243, 244, 246, 0.9);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid #e5e7eb;
+      z-index: 10;
     }
     .nav-container {
       display: flex;
@@ -46,16 +49,16 @@
     }
     .logo {
       font-weight: 700;
-      font-size: 1.2rem;
-      letter-spacing: 0.08em;
+      font-size: 1.1rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #0f172a;
+      color: var(--gold-soft);
     }
     .nav a {
-      margin-left: 24px;
-      font-size: 0.95rem;
+      margin-left: 20px;
+      font-size: 0.9rem;
       text-decoration: none;
-      color: #6b7280;
+      color: #d1d5db;
       position: relative;
       padding-bottom: 3px;
     }
@@ -66,414 +69,630 @@
       bottom: 0;
       width: 0;
       height: 2px;
-      background: #0f172a;
+      background: var(--gold-accent);
       transition: width 0.2s ease-out;
     }
-    .nav a:hover {
-      color: #0f172a;
-    }
-    .nav a:hover::after {
-      width: 100%;
-    }
+    .nav a:hover { color: #f9fafb; }
+    .nav a:hover::after { width: 100%; }
 
-    /* Hero */
+    /* Hero + form shell */
     .hero {
-      padding: 80px 0 72px;
+      padding: 40px 0 32px;
     }
-    .hero-content {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
-      gap: 40px;
-      align-items: center;
+    .hero-header {
+      text-align: left;
+      margin-bottom: 24px;
     }
-    .hero-text h1 {
-      font-size: 2.5rem;
-      line-height: 1.2;
-      margin-bottom: 14px;
+    .hero-kicker {
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-soft);
+      margin-bottom: 6px;
     }
-    .hero-text p {
-      font-size: 1rem;
-      color: #4b5563;
-      margin-bottom: 20px;
+    .hero-title {
+      font-size: 2rem;
+      margin-bottom: 8px;
     }
-    .hero-note {
-      font-size: 0.9rem;
-      color: #6b7280;
-      margin-top: 8px;
+    .hero-sub {
+      max-width: 560px;
+      font-size: 0.95rem;
+      color: #d1d5db;
     }
 
-    .hero-card {
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 24px 24px 20px;
-      box-shadow: 0 22px 45px rgba(15, 23, 42, 0.16);
-      border: 1px solid #e5e7eb;
+    .wizard-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
+      gap: 32px;
+      align-items: flex-start;
     }
-    .hero-card h2 {
+
+    .card {
+      background: linear-gradient(145deg,#111 0,#050505 60%,#111 100%);
+      border-radius: 20px;
+      border: 1px solid var(--border-soft);
+      padding: 22px 20px 18px;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.8);
+    }
+
+    /* Steps indicator */
+    .steps-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 8px;
+    }
+    .step-chip {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid #27272a;
+      font-size: 0.76rem;
+      color: #9ca3af;
+    }
+    .step-chip.active {
+      border-color: var(--gold-accent);
+      background: rgba(210,166,60,0.12);
+      color: #f9fafb;
+    }
+    .step-no {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      background: #111827;
+      color: #e5e7eb;
+    }
+    .step-chip.active .step-no {
+      background: var(--gold-accent);
+      color: #111;
+    }
+
+    /* Form sections */
+    .step-title {
       font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+    .step-desc {
+      font-size: 0.85rem;
+      color: #9ca3af;
       margin-bottom: 16px;
     }
-    .hero-card label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #6b7280;
-      margin-bottom: 4px;
-      margin-top: 10px;
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px 14px;
+      margin-bottom: 10px;
     }
-    .hero-card input {
-      width: 100%;
-      padding: 9px 10px;
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    label {
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+    input, select, textarea {
+      background: #020617;
       border-radius: 10px;
-      border: 1px solid #d1d5db;
+      border: 1px solid #27272a;
+      color: #f9fafb;
+      padding: 8px 10px;
       font-size: 0.9rem;
       outline: none;
     }
-    .hero-card input:focus {
-      border-color: #0f172a;
-      box-shadow: 0 0 0 1px #0f172a17;
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold-accent);
+      box-shadow: 0 0 0 1px rgba(210,166,60,0.3);
     }
-    .hero-mini {
-      margin-top: 10px;
+    textarea { resize: vertical; min-height: 72px; }
+
+    /* Wishlist */
+    .wishlist-wrap { margin-top: 6px; }
+    .wishlist-input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .wishlist-input-row input {
+      flex: 1;
+    }
+    .pill-btn {
+      border-radius: 999px;
+      border: 1px solid var(--gold-accent);
+      background: rgba(210,166,60,0.08);
+      color: var(--gold-soft);
+      padding: 8px 14px;
       font-size: 0.8rem;
-      color: #6b7280;
+      cursor: pointer;
+    }
+    .pill-btn:hover {
+      background: rgba(210,166,60,0.18);
+    }
+    .wishlist-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .chip {
+      border-radius: 999px;
+      border: 1px solid #27272a;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #020617;
+    }
+    .chip span.remove {
+      cursor: pointer;
+      color: #f97373;
+      font-size: 0.8rem;
     }
 
-    .primary-btn,
-    .secondary-btn {
-      display: inline-flex;
+    /* Buttons + footer of card */
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
+      margin-top: 18px;
+      gap: 10px;
+    }
+    .primary-btn, .ghost-btn {
       border-radius: 999px;
-      padding: 10px 18px;
-      font-size: 0.95rem;
-      font-weight: 500;
+      padding: 9px 18px;
+      font-size: 0.9rem;
       border: none;
       cursor: pointer;
-      transition: transform 0.1s ease-out, box-shadow 0.1s ease-out,
-        background-color 0.1s ease-out;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.1s, box-shadow 0.1s, background 0.1s, color 0.1s;
     }
     .primary-btn {
-      background: #0f172a;
-      color: #f9fafb;
-      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.35);
+      background: var(--gold-accent);
+      color: #111111;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.7);
+      font-weight: 600;
     }
     .primary-btn:hover {
       transform: translateY(-1px);
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.4);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.9);
     }
-    .secondary-btn {
-      margin-top: 14px;
-      width: 100%;
-      background: #e5e7eb;
-      color: #111827;
+    .ghost-btn {
+      background: transparent;
+      border: 1px solid #4b5563;
+      color: #e5e7eb;
+      font-size: 0.85rem;
+      padding-inline: 14px;
     }
-    .secondary-btn:hover {
-      background: #d1d5db;
+    .ghost-btn:hover {
+      border-color: #9ca3af;
     }
-
-    .section {
-      padding: 64px 0;
-    }
-    .section-alt {
-      background: #ffffff;
-    }
-    .section h2 {
-      font-size: 1.6rem;
-      margin-bottom: 24px;
+    .step-hint {
+      font-size: 0.78rem;
+      color: #9ca3af;
     }
 
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 20px;
-    }
-    .step {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 18px 18px 16px;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
-    }
-    .step-number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      background: #0f172a;
-      color: #f9fafb;
-      font-size: 0.9rem;
-      margin-bottom: 10px;
-    }
-    .step h3 {
-      font-size: 1rem;
+    /* Summary side card */
+    .summary-card h3 {
+      font-size: 0.98rem;
       margin-bottom: 8px;
+      color: var(--gold-soft);
     }
-    .step p {
-      font-size: 0.9rem;
-      color: #4b5563;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
-      gap: 28px;
-    }
-    .about-grid p {
-      font-size: 0.98rem;
-      color: #4b5563;
+    .summary-section {
+      font-size: 0.8rem;
+      color: #e5e7eb;
       margin-bottom: 10px;
     }
-    .about-card {
-      background: #f9fafb;
-      border-radius: 16px;
-      padding: 18px 18px 16px;
-      border: 1px solid #e5e7eb;
+    .summary-label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+      color: #9ca3af;
     }
-    .about-card h3 {
-      font-size: 1rem;
-      margin-bottom: 10px;
+    .summary-value {
+      margin-top: 2px;
     }
-    .about-card ul {
+    .summary-list {
+      margin-top: 4px;
       list-style: none;
+      padding-left: 0;
     }
-    .about-card li {
-      font-size: 0.9rem;
-      color: #4b5563;
-      padding: 4px 0;
-    }
-
-    .section-intro {
-      max-width: 620px;
-      font-size: 0.98rem;
-      color: #4b5563;
-      margin-bottom: 20px;
-    }
-    .contact-form {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 20px 18px 18px;
-      border: 1px solid #e5e7eb;
-      max-width: 720px;
-    }
-    .form-row {
-      display: flex;
-      gap: 14px;
-      margin-bottom: 12px;
-    }
-    .contact-form input,
-    .contact-form textarea {
-      width: 100%;
-      padding: 9px 10px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      font-size: 0.9rem;
-      outline: none;
-      resize: vertical;
-    }
-    .contact-form input:focus,
-    .contact-form textarea:focus {
-      border-color: #0f172a;
-      box-shadow: 0 0 0 1px #0f172a17;
-    }
-    .contact-form button {
-      margin-top: 10px;
+    .summary-list li {
+      font-size: 0.8rem;
+      color: #e5e7eb;
     }
 
+    /* Footer */
     .site-footer {
-      border-top: 1px solid #e5e7eb;
-      background: #f9fafb;
-      padding: 16px 0;
-      margin-top: 32px;
+      border-top: 1px solid #111827;
+      background: #020617;
+      padding: 14px 0;
+      color: #6b7280;
+      font-size: 0.78rem;
     }
     .footer-inner {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 8px;
-    }
-    .footer-inner p {
-      font-size: 0.85rem;
-      color: #6b7280;
-    }
-    .footer-note {
-      font-style: italic;
     }
 
     @media (max-width: 900px) {
-      .hero-content,
-      .about-grid,
-      .steps {
-        grid-template-columns: minmax(0, 1fr);
+      .wizard-shell {
+        grid-template-columns: minmax(0,1fr);
       }
-      .hero {
-        padding-top: 72px;
-      }
-      .nav a {
-        margin-left: 12px;
-        font-size: 0.9rem;
-      }
+      .hero-title { font-size: 1.7rem; }
     }
     @media (max-width: 640px) {
-      .nav {
-        display: none;
-      }
-      .hero-text h1 {
-        font-size: 2rem;
-      }
-      .section {
-        padding: 52px 0;
-      }
-      .form-row {
-        flex-direction: column;
-      }
+      .nav { display: none; }
+      .hero { padding-top: 32px; }
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav-container">
-      <div class="logo">GiftLoop</div>
-      <nav class="nav">
-        <a href="#create">Create Event</a>
-        <a href="#how">How it works</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <section id="create" class="hero">
-      <div class="container hero-content">
-        <div class="hero-text">
-          <h1>Turn your event into the perfect gift experience</h1>
-          <p>
-            Create a simple gift list, share it with a QR code, and let your guests
-            choose exactly what you actually want, without duplicates or awkward gifts.
-          </p>
-          <button id="startCreateBtn" class="primary-btn">
-            Start creating your list
-          </button>
-          <p class="hero-note">
-            No login, no app download—set it up in under a minute.
-          </p>
-        </div>
-        <div class="hero-card">
-          <h2>Quick Event Setup</h2>
-          <label>Event name</label>
-          <input type="text" placeholder="e.g. Ananya's 21st Birthday" />
-          <label>First gift</label>
-          <input type="text" placeholder="e.g. Wireless headphones" />
-          <button class="secondary-btn">Preview gift list</button>
-          <p class="hero-mini">
-            Next, you’ll add more gifts and download your QR code to print on invites.
-          </p>
-        </div>
+  <div class="page">
+    <header class="site-header">
+      <div class="container nav-container">
+        <div class="logo">GiftLoop</div>
+        <nav class="nav">
+          <a href="#create">Create Event</a>
+          <a href="#how">How it works</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
       </div>
-    </section>
+    </header>
 
-    <section id="how" class="section">
-      <div class="container">
-        <h2>How it works</h2>
-        <div class="steps">
-          <div class="step">
-            <span class="step-number">1</span>
-            <h3>Create your list</h3>
-            <p>
-              Add your event details and list the gifts you’d actually love.
-              Each gift is tracked so the same thing is never bought twice.
+    <main>
+      <section id="create" class="hero">
+        <div class="container">
+          <div class="hero-header">
+            <div class="hero-kicker">event gift registry</div>
+            <h1 class="hero-title">Create a curated gift list for your next event</h1>
+            <p class="hero-sub">
+              Tell us about your event, add your wishlist and share a QR code with guests.
+              We’ll set final prices, manage payments and make sure every gift is unique.
             </p>
           </div>
-          <div class="step">
-            <span class="step-number">2</span>
-            <h3>Share the QR code</h3>
-            <p>
-              We generate a unique link and QR code for your event.
-              Print it on your card or share it on WhatsApp with your guests.
-            </p>
-          </div>
-          <div class="step">
-            <span class="step-number">3</span>
-            <h3>Guests pick and pay</h3>
-            <p>
-              Guests scan the QR, see your list, choose one gift and pay securely.
-              Once a gift is taken, it instantly shows as unavailable.
-            </p>
-          </div>
-          <div class="step">
-            <span class="step-number">4</span>
-            <h3>Verify gifts at the event</h3>
-            <p>
-              Every paid gift gets a unique code. At the event, you match the
-              code and hand over the right gift to the right person—fully tracked.
-            </p>
+
+          <div class="wizard-shell">
+            <!-- Left: multi-step form -->
+            <div class="card">
+              <div class="steps-indicator">
+                <div class="step-chip active" data-step-chip="1">
+                  <div class="step-no">1</div>
+                  <div>Event details</div>
+                </div>
+                <div class="step-chip" data-step-chip="2">
+                  <div class="step-no">2</div>
+                  <div>Wishlist</div>
+                </div>
+                <div class="step-chip" data-step-chip="3">
+                  <div class="step-no">3</div>
+                  <div>Contact info</div>
+                </div>
+              </div>
+
+              <!-- Step 1 -->
+              <div class="step" id="step-1">
+                <h2 class="step-title">Tell us about your event</h2>
+                <p class="step-desc">
+                  We use this to personalise your QR page and help guests understand what they’re gifting for.
+                </p>
+                <div class="field-grid">
+                  <div class="field">
+                    <label>Organiser / host name</label>
+                    <input id="hostName" type="text" placeholder="e.g. Riya Sharma" />
+                  </div>
+                  <div class="field">
+                    <label>Event type</label>
+                    <select id="eventType">
+                      <option value="">Select type</option>
+                      <option>Wedding</option>
+                      <option>Birthday party</option>
+                      <option>Baby shower</option>
+                      <option>Anniversary</option>
+                      <option>Engagement</option>
+                      <option>House warming</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>Event date</label>
+                    <input id="eventDate" type="date" />
+                  </div>
+                  <div class="field">
+                    <label>Expected number of guests</label>
+                    <input id="guestCount" type="number" min="1" placeholder="e.g. 80" />
+                  </div>
+                  <div class="field">
+                    <label>Venue name</label>
+                    <input id="venueName" type="text" placeholder="e.g. Golden Orchid Banquets" />
+                  </div>
+                  <div class="field">
+                    <label>City</label>
+                    <input id="city" type="text" placeholder="e.g. Bengaluru" />
+                  </div>
+                  <div class="field">
+                    <label>State</label>
+                    <input id="state" type="text" placeholder="e.g. Karnataka" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="step" id="step-2" style="display:none;">
+                <h2 class="step-title">Build your wish list</h2>
+                <p class="step-desc">
+                  Add everything you’d be happy to receive. We’ll review each item on our side
+                  and set a final price before generating your event QR.
+                </p>
+
+                <div class="wishlist-wrap">
+                  <div class="wishlist-input-row">
+                    <input id="wishlistInput" type="text" placeholder="e.g. Air fryer, perfume set, travel voucher..." />
+                    <button type="button" class="pill-btn" id="addWishlistItem">+ Add</button>
+                  </div>
+                  <div id="wishlistChips" class="wishlist-list"></div>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="step" id="step-3" style="display:none;">
+                <h2 class="step-title">How can we reach you?</h2>
+                <p class="step-desc">
+                  Once we’ve reviewed your list and set prices, we’ll send your unique gift‑registry link and QR code to these details.
+                </p>
+                <div class="field-grid">
+                  <div class="field">
+                    <label>Primary contact name</label>
+                    <input id="contactName" type="text" placeholder="e.g. Riya Sharma" />
+                  </div>
+                  <div class="field">
+                    <label>WhatsApp number</label>
+                    <input id="contactPhone" type="tel" placeholder="10‑digit Indian number" />
+                  </div>
+                  <div class="field">
+                    <label>Email address</label>
+                    <input id="contactEmail" type="email" placeholder="e.g. you@example.com" />
+                  </div>
+                  <div class="field">
+                    <label>Preferred contact time</label>
+                    <input id="contactTime" type="text" placeholder="e.g. Evenings after 6 PM" />
+                  </div>
+                </div>
+                <div class="field" style="margin-top:8px;">
+                  <label>Anything else we should know?</label>
+                  <textarea id="extraNotes" placeholder="Special requests, budget hints, brands you love or want to avoid..."></textarea>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <button type="button" class="ghost-btn" id="prevBtn" disabled>← Back</button>
+                <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+                  <button type="button" class="primary-btn" id="nextBtn">Next step →</button>
+                  <div class="step-hint" id="stepHint">Step 1 of 3</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: live summary -->
+            <aside class="card summary-card">
+              <h3>Live event summary</h3>
+
+              <div class="summary-section">
+                <div class="summary-label">Host &amp; occasion</div>
+                <div class="summary-value" id="sumHost">Host name not added</div>
+                <div class="summary-value" id="sumType">Event type not selected</div>
+              </div>
+
+              <div class="summary-section">
+                <div class="summary-label">When &amp; where</div>
+                <div class="summary-value" id="sumDate">Date not set</div>
+                <div class="summary-value" id="sumVenue">Venue not added</div>
+                <div class="summary-value" id="sumLocation"></div>
+                <div class="summary-value" id="sumGuests"></div>
+              </div>
+
+              <div class="summary-section">
+                <div class="summary-label">Wishlist items</div>
+                <ul id="sumWishlist" class="summary-list">
+                  <li>No items added yet.</li>
+                </ul>
+                <div class="summary-value" style="margin-top:4px; font-size:0.75rem; color:#9ca3af;">
+                  After you submit, our team will assign prices and generate your QR.
+                </div>
+              </div>
+
+              <div class="summary-section">
+                <div class="summary-label">Contact</div>
+                <div class="summary-value" id="sumContactName">Not provided</div>
+                <div class="summary-value" id="sumContactPhone"></div>
+                <div class="summary-value" id="sumContactEmail"></div>
+              </div>
+            </aside>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="about" class="section section-alt">
-      <div class="container about-grid">
-        <div>
-          <h2>Built for modern events</h2>
-          <p>
-            Traditional gifting is broken. People guess what to buy, spend money
-            on things you might never use, and you end up with duplicates or
-            random items you can’t return.
-          </p>
-          <p>
-            GiftLoop keeps everything organised. You decide the wishlist, guests
-            pick from it with confidence, and the whole experience feels easy,
-            thoughtful and efficient.
-          </p>
-        </div>
-        <div class="about-card">
-          <h3>Perfect for</h3>
-          <ul>
-            <li>Birthdays and anniversaries</li>
-            <li>Weddings and engagements</li>
-            <li>Baby showers and housewarmings</li>
-            <li>Office parties and farewells</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      <!-- These are placeholder anchors so nav links don’t break -->
+      <section id="how" style="padding:0 0 32px;"></section>
+      <section id="about" style="padding:0 0 32px;"></section>
+      <section id="contact" style="padding:0 0 32px;"></section>
+    </main>
 
-    <section id="contact" class="section">
-      <div class="container">
-        <h2>Talk to us</h2>
-        <p class="section-intro">
-          Have a question, feature idea, or want GiftLoop for your venue or event business?
-          Send a quick message and we’ll get back to you.
-        </p>
-        <form class="contact-form" onsubmit="event.preventDefault(); alert('Demo only for now. Hook this to email or Firestore later.');">
-          <div class="form-row">
-            <input type="text" placeholder="Your name" required />
-            <input type="email" placeholder="Email or WhatsApp" required />
-          </div>
-          <textarea rows="4" placeholder="Tell us what you have in mind..." required></textarea>
-          <button type="submit" class="primary-btn">Send message</button>
-        </form>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© <span id="year"></span> GiftLoop – prototype gift registry built in India.</p>
+        <p>Once you hit submit (later), this data will come to our backend for pricing and QR generation.</p>
       </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> GiftLoop. Built in India for better gifting.</p>
-      <p class="footer-note">MVP prototype – flows and payments still in progress.</p>
-    </div>
-  </footer>
+    </footer>
+  </div>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-    document.getElementById("startCreateBtn").addEventListener("click", () => {
-      document.getElementById("create").scrollIntoView({ behavior: "smooth" });
+    const steps = [1,2,3];
+    let currentStep = 1;
+
+    const stepEls = {
+      1: document.getElementById('step-1'),
+      2: document.getElementById('step-2'),
+      3: document.getElementById('step-3')
+    };
+    const chips = document.querySelectorAll('.step-chip');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const stepHint = document.getElementById('stepHint');
+
+    function updateStepUI() {
+      steps.forEach(n => {
+        stepEls[n].style.display = n === currentStep ? 'block' : 'none';
+      });
+      chips.forEach(chip => {
+        const n = Number(chip.getAttribute('data-step-chip'));
+        chip.classList.toggle('active', n === currentStep);
+      });
+      prevBtn.disabled = currentStep === 1;
+      if (currentStep === 3) {
+        nextBtn.textContent = 'Send to GiftLoop →';
+      } else {
+        nextBtn.textContent = 'Next step →';
+      }
+      stepHint.textContent = `Step ${currentStep} of 3`;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentStep > 1) {
+        currentStep--;
+        updateStepUI();
+      }
     });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentStep < 3) {
+        currentStep++;
+        updateStepUI();
+      } else {
+        alert('In the real version this would send all details to our backend so we can set prices and generate your QR.');
+      }
+    });
+
+    // Wishlist logic
+    const wishlistInput = document.getElementById('wishlistInput');
+    const wishlistChips = document.getElementById('wishlistChips');
+    const sumWishlist = document.getElementById('sumWishlist');
+    const addWishlistItemBtn = document.getElementById('addWishlistItem');
+    let wishlist = [];
+
+    function renderWishlist() {
+      wishlistChips.innerHTML = '';
+      sumWishlist.innerHTML = '';
+
+      if (!wishlist.length) {
+        sumWishlist.innerHTML = '<li>No items added yet.</li>';
+        return;
+      }
+      wishlist.forEach((item, idx) => {
+        const chip = document.createElement('div');
+        chip.className = 'chip';
+        chip.innerHTML = `<span>${item}</span><span class="remove" data-idx="${idx}">×</span>`;
+        wishlistChips.appendChild(chip);
+
+        const li = document.createElement('li');
+        li.textContent = item;
+        sumWishlist.appendChild(li);
+      });
+    }
+
+    addWishlistItemBtn.addEventListener('click', () => {
+      const value = wishlistInput.value.trim();
+      if (!value) return;
+      wishlist.push(value);
+      wishlistInput.value = '';
+      renderWishlist();
+    });
+
+    wishlistChips.addEventListener('click', (e) => {
+      if (e.target.classList.contains('remove')) {
+        const idx = Number(e.target.getAttribute('data-idx'));
+        wishlist.splice(idx, 1);
+        renderWishlist();
+      }
+    });
+
+    // Live summary binding
+    function bindSummary(id, handler) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', handler);
+    }
+
+    const hostName = document.getElementById('hostName');
+    const eventType = document.getElementById('eventType');
+    const eventDate = document.getElementById('eventDate');
+    const guestCount = document.getElementById('guestCount');
+    const venueName = document.getElementById('venueName');
+    const city = document.getElementById('city');
+    const state = document.getElementById('state');
+
+    const contactName = document.getElementById('contactName');
+    const contactPhone = document.getElementById('contactPhone');
+    const contactEmail = document.getElementById('contactEmail');
+
+    const sumHost = document.getElementById('sumHost');
+    const sumType = document.getElementById('sumType');
+    const sumDate = document.getElementById('sumDate');
+    const sumVenue = document.getElementById('sumVenue');
+    const sumLocation = document.getElementById('sumLocation');
+    const sumGuests = document.getElementById('sumGuests');
+    const sumContactName = document.getElementById('sumContactName');
+    const sumContactPhone = document.getElementById('sumContactPhone');
+    const sumContactEmail = document.getElementById('sumContactEmail');
+
+    hostName.addEventListener('input', () => {
+      sumHost.textContent = hostName.value.trim() || 'Host name not added';
+    });
+    eventType.addEventListener('change', () => {
+      sumType.textContent = eventType.value || 'Event type not selected';
+    });
+    eventDate.addEventListener('change', () => {
+      sumDate.textContent = eventDate.value ? `On ${eventDate.value}` : 'Date not set';
+    });
+    guestCount.addEventListener('input', () => {
+      const val = guestCount.value.trim();
+      sumGuests.textContent = val ? `${val} guests expected` : '';
+    });
+    venueName.addEventListener('input', () => {
+      sumVenue.textContent = venueName.value.trim() || 'Venue not added';
+    });
+    function updateLocation() {
+      const c = city.value.trim();
+      const s = state.value.trim();
+      sumLocation.textContent = c || s ? [c,s].filter(Boolean).join(', ') : '';
+    }
+    city.addEventListener('input', updateLocation);
+    state.addEventListener('input', updateLocation);
+
+    contactName.addEventListener('input', () => {
+      sumContactName.textContent = contactName.value.trim() || 'Not provided';
+    });
+    contactPhone.addEventListener('input', () => {
+      sumContactPhone.textContent = contactPhone.value.trim();
+    });
+    contactEmail.addEventListener('input', () => {
+      sumContactEmail.textContent = contactEmail.value.trim();
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+    updateStepUI();
+    renderWishlist();
   </script>
 </body>
 </html>
